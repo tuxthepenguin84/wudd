@@ -46,6 +46,7 @@ I find Microsofts approach to how they host their catalog as mildly hostile as i
     <li><a href="#about-the-project">About The Project</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#run-locally">Run Locally</a></li>
+    <li><a href="#repo-directory-structure">Repo Directory Structure</a></li>
     <li><a href="#docker">Docker</a></li>
     <li><a href="#fetch-from-github">Fetch from GitHub</a></li>
     <li><a href="#scheduling-wudd">Scheduling wudd</a></li>
@@ -178,6 +179,18 @@ wudd will start searching and downloading updates to a `download/` dir in the ro
 wudd can be run without any parameters to only store search results in the `outputs/` dir, no downloading will occur
 ``` Bash
 python3 wudd.py
+```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Repo Directory Structure
+```
+docker/ - Files for building and running wudd in Docker
+downloads/ - Directory updates are downloaded to
+examples/ - Example json files to help get you started configuring what updates you want to download
+images/ - Images for the repo
+outputs/ - Structured detailed output of your updates
+stored/ - Structured detailed output of all updates, useful if you don't want to run wudd
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
