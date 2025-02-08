@@ -51,6 +51,7 @@ I find Microsofts approach to how they host their catalog as mildly hostile as i
     <li><a href="#fetch-from-github">Fetch from GitHub</a></li>
     <li><a href="#scheduling-wudd">Scheduling wudd</a></li>
     <li><a href="#installing-updates">Installing Updates</a></li>
+    <li><a href="#upcoming-features">Upcoming Features</a></li>
   </ol>
 </details>
 
@@ -313,6 +314,13 @@ Install update using PowerShell on Windows
 ``` PowerShell
 Add-WindowsPackage -Online -PackagePath C:\path\to\dir\containing\win11msu_or_win10cab -NoRestart
 ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Upcoming Features
+
+* Docker instructions
+* Check for query in outputs dir before searching online
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
