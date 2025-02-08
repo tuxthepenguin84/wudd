@@ -1,0 +1,13 @@
+# docker build -f Dockerfile . -t delchamps/pigarageapi:latest
+
+services:
+  wudd:
+    image: delchamps/pigarageapi:latest
+    container_name: wudd
+    restart: unless-stopped
+    volumes:
+      - ./downloads/:/git/wudd/downloads/
+      - ./outputs/:/git/wudd/outputs/
+      - ./osinfo.json:/git/wudd/osinfo.json:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro

@@ -1,0 +1,120 @@
+{
+  "11": {
+    "releases": {
+      "22H2": {
+        "archs": {
+          "x64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          },
+          "arm64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          }
+        }
+      },
+      "23H2": {
+        "archs": {
+          "x64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          },
+          "arm64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          }
+        }
+      },
+      "24H2": {
+        "archs": {
+          "x64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          },
+          "arm64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2024
+            },
+            "end": {
+              "month": 1,
+              "year": 2025
+            }
+          }
+        }
+      }
+    }
+  }
+}
