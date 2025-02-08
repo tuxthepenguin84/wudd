@@ -196,12 +196,12 @@ If you don't want to run wudd at all you can parse the [.csv, .json, .txt] data 
 
 For example, to get a list of all the updates for Windows 10 22H2 x64 for the month of Jan 2025
 ``` Bash
-wget --quiet -O - https://raw.githubusercontent.com/tuxthepenguin84/wudd/refs/heads/master/stored/wudd.json | jq '."10"["22H2"]["x64"]["2025-01"][]["files"][]'
+wget --quiet -O - https://raw.githubusercontent.com/tuxthepenguin84/wudd/refs/heads/main/stored/wudd.json | jq '."10"["22H2"]["x64"]["2025-01"][]["files"][]'
 ```
 
 To download each of those updates you could use a script like the following
 ``` Bash
-updates=$(wget --quiet -O - https://raw.githubusercontent.com/tuxthepenguin84/wudd/refs/heads/master/stored/wudd.json | jq '."10"["22H2"]["x64"]["2025-01"][]["files"][]' | xargs)
+updates=$(wget --quiet -O - https://raw.githubusercontent.com/tuxthepenguin84/wudd/refs/heads/main/stored/wudd.json | jq '."10"["22H2"]["x64"]["2025-01"][]["files"][]' | xargs)
 for update in $updates; do wget $update; done
 ```
 
@@ -367,7 +367,7 @@ Project Link: [https://github.com/tuxthepenguin84/wudd](https://github.com/tuxth
 [issues-shield]: https://img.shields.io/github/issues/tuxthepenguin84/wudd.svg?style=for-the-badge
 [issues-url]: https://github.com/tuxthepenguin84/wudd/issues
 [license-shield]: https://img.shields.io/github/license/tuxthepenguin84/wudd.svg?style=for-the-badge
-[license-url]: https://github.com/tuxthepenguin84/wudd/blob/master/LICENSE.txt
+[license-url]: https://github.com/tuxthepenguin84/wudd/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
