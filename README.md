@@ -371,8 +371,12 @@ Add-WindowsPackage -Online -PackagePath C:\path\to\dir\containing\win11msu_or_wi
 <!-- UPCOMING FEATURES -->
 ## Upcoming Features
 
-* Docker instructions
-* Check for query in outputs dir before searching online
+☐ Docker instructions
+
+☐ Check for query in outputs dir before searching online
+
+☐ wudd server with REST API to deliver updates to clients
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
