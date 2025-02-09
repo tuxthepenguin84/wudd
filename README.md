@@ -35,7 +35,7 @@
 ## About The Project
 
 The goal of this project is to make searching and downloading Windows updates directly from the [Microsoft Catalog](https://catalog.update.microsoft.com) easy.
-I find Microsofts approach to how they host their catalog as mildly hostile as it's not easy to search or programatically download updates without tools like WSUS, or manually searching and clicking. A great use case for this project is someone that may be rolling their own imaging and/or update/patching solution and need direct access to the update files.
+I find Microsofts approach to how they host their catalog as mildly hostile as it's not easy to search or programatically download updates without tools like WSUS, or manually searching and clicking.
 
 
 
@@ -44,6 +44,8 @@ I find Microsofts approach to how they host their catalog as mildly hostile as i
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#key-features">Key Features</a></li>
+    <li><a href="#use-cases">Use Cases</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#run-locally">Run Locally</a></li>
     <li><a href="#repo-directory-structure">Repo Directory Structure</a></li>
@@ -54,6 +56,30 @@ I find Microsofts approach to how they host their catalog as mildly hostile as i
     <li><a href="#upcoming-features">Upcoming Features</a></li>
   </ol>
 </details>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- KEY FEATURES -->
+## Key Features
+* ⚙️ Configuration-Driven
+* 🐳 Docker Support
+* 🚀 Automated Downloading of Updates with Validation
+* 🌍 Cross-Platorm Support
+* ⚡ Minimal Setup
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USE CASES -->
+## Use Cases
+* Avoid manually searching on https://catalog.update.microsoft.com, lets be honest this site sucks.
+* Roll your own imaging and/or update/patching solution and need direct access to the update files.
+* Offline patching (air gapped systems).
+* Environments that need specific patch sets applied to their fleet.
+* Not wanting to run WSUS.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -141,6 +167,9 @@ The `osinfo.json` configuration for those requirements would look like the follo
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- RUN LOCALLY -->
 ## Run Locally
 
 ```
@@ -184,6 +213,9 @@ python3 wudd.py
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- REPO DIRECTORY STRUCTURE -->
 ## Repo Directory Structure
 ```
 docker/ - Files for building and running wudd in Docker
@@ -196,6 +228,9 @@ stored/ - Structured detailed output of all updates, useful if you don't want to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- DOCKER -->
 ## Docker
 Pull Docker Container
 
@@ -205,6 +240,9 @@ Run Docker Container
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- FETCH FROM GITHUB -->
 ## Fetch from GitHub
 If you don't want to run wudd at all you can parse the [.csv, .json, .txt] data from the `stored/` dir in this GitHub repo, assuming I keep it up to date.
 
@@ -291,6 +329,9 @@ Sometimes you will see two files listed for an update, in the case of .NET updat
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- SCHEDULING WUDD -->
 ## Scheduling wudd
 You can have wudd in a cron job to continually search and download updates for you.
 
@@ -301,6 +342,9 @@ This cronjob will run every day at 2 PM and only download the latest updates
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- INSTALLING UPDATES -->
 ## Installing Updates
 Windows 10 requires you to extract the contents of the .msu update before you can proceed with the installation. Windows 11 allows direct installation of the .msu update.
 
@@ -322,6 +366,9 @@ Add-WindowsPackage -Online -PackagePath C:\path\to\dir\containing\win11msu_or_wi
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- UPCOMING FEATURES -->
 ## Upcoming Features
 
 * Docker instructions
