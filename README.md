@@ -308,6 +308,11 @@ To extract the contents of .msu files for Windows 10 you can use [file-roller](h
 ``` Bash
 file-roller -h windows10.0-kb5049981-x64_bda073f7d8e14e65c2632b47278924b8a0f6b374.msu
 ```
+On Windows you can use expand.exe
+```
+expand -f:* windows10.0-kb5049981-x64_bda073f7d8e14e65c2632b47278924b8a0f6b374.msu extracted
+```
+
 **After the contents have been extracted you'll need to delete `WSUSSCAN.cab` to prevent errors during installation.**
 
 Install update using PowerShell on Windows
