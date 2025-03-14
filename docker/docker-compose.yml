@@ -1,8 +1,8 @@
-# docker build -f Dockerfile . -t delchamps/pigarageapi:latest
+# docker build -f Dockerfile . -t tuxthepenguin84/wudd:latest
 
 services:
   wudd:
-    image: delchamps/pigarageapi:latest
+    image: tuxthepenguin84/wudd:latest
     container_name: wudd
     restart: unless-stopped
     volumes:
