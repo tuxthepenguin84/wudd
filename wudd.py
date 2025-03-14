@@ -34,19 +34,20 @@ class WUDD():
       self.driver.quit()
 
   def _searchterm(self):
-    if self.type == 'cu':
-      self.searchterm = f"{self.date} Cumulative Update for Windows {self.osver} Version {self.release} for {self.arch}"
-    elif self.type == 'dcu':
-      self.searchterm = f"{self.date} Dynamic Cumulative Update for Windows {self.osver} Version {self.release} for {self.arch}"
-    elif self.type == 'cup':
-      self.searchterm = f"{self.date} Cumulative Update Preview for Windows {self.osver} Version {self.release} for {self.arch}"
-    elif self.type == 'dnet':
-      self.searchterm = f"{self.date} Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows {self.osver} Version {self.release} for {self.arch}"
-    elif self.type == 'dnetp':
-      self.searchterm = f"{self.date} Cumulative Update Preview for .NET Framework 3.5, 4.8 and 4.8.1 for Windows {self.osver} Version {self.release} for {self.arch}"
-    elif self.type == 'custom':
+    update_type = {
+      'cu': 'Cumulative Update',
+      'dcu': 'Dynamic Cumulative Update',
+      'cup': 'Cumulative Update Preview',
+      'dnet': 'Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1',
+      'dnetp': 'Cumulative Update Preview for .NET Framework 3.5, 4.8 and 4.8.1',
+      'custom': None
+    }
+    if self.type == 'custom':
       logging.error('Custom search terms not available yet')
       sys.exit(0)
+    elif self.type in update_type:
+      update_string = update_type[self.type]
+      self.searchterm = f"{self.date} {update_string} for Windows {self.osver} Version {self.release} for {self.arch}"
     else:
       logging.error(f"Invalid update type: {self.type}")
       sys.exit(1)
