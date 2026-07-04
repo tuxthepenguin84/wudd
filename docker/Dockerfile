@@ -1,20 +1,41 @@
-FROM ubuntu:noble
+FROM python:3.14-slim AS builder
+
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update && apt install -y --no-install-recommends \
-  apt-transport-https \
-  build-essential \
+ENV PYTHONDONTWRITEBYTECODE=1 \
+  PYTHONUNBUFFERED=1 \
+  PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /git/wudd
+
+RUN python3 -m venv /opt/venv \
+  && /opt/venv/bin/pip install --no-cache-dir --upgrade pip
+
+COPY requirements.txt ./
+RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN cp examples/win11.json osinfo.json
+
+FROM python:3.14-slim
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1 \
+  PYTHONUNBUFFERED=1 \
+  PATH="/opt/venv/bin:$PATH"
+
+WORKDIR /git/wudd
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
   ca-certificates \
-  git \
-  python3 \
-  python3-selenium \
-  python3-requests \
-  && update-ca-certificates \
-  && rm -rf /var/lib/apt/lists/* \
-  && mkdir -p /git/wudd
-RUN git clone https://github.com/tuxthepenguin84/wudd.git /git/wudd
-COPY /git/wudd/examples/win11.json /git/wudd/osinfo.json
+  chromium \
+  chromium-driver \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /git/wudd /git/wudd
+
 VOLUME /git/wudd/downloads
 VOLUME /git/wudd/outputs
-VOLUME /git/wudd/osinfo.json
-ENTRYPOINT ["/usr/bin/python3", "-u", "/git/wudd/wudd.py"]
+
+ENTRYPOINT ["/opt/venv/bin/python", "-u", "/git/wudd/wudd.py"]
 CMD ["--download"]
