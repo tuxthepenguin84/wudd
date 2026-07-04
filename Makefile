@@ -1,21 +1,23 @@
 PYTHON ?= .venv/bin/python
 PIP ?= .venv/bin/pip
 WUDD ?= ./bin/wudd
+BENCHMARK_FLAGS ?= --latest --no-snapshot-cache --workers 1
+BENCHMARK_MONTHS ?= 4
+BENCHMARK_UPDATE_TYPE ?= cu
+BENCHMARK_WORKER_COUNTS ?= 4 6 8
 BROWSER ?= chrome
 WORKERS ?= 4
 RUN_FLAGS ?=
-TIME ?= $(PYTHON) -c 'import subprocess, sys, time; args = sys.argv[1:]; args = args[1:] if args[:1] == ["--"] else args; start = time.time(); code = subprocess.call(args); end = time.time(); print(f"real {end - start:.2f}s"); raise SystemExit(code)' --
-BENCHMARK_FLAGS ?= --latest --no-snapshot-cache --workers 1
 INTEGRATION_BROWSER ?= chrome
 
-.PHONY: help venv install test integration-test run run-download run-latest run-latest-download run-live run-live-download run-clean run-clean-download run-firefox run-firefox-download benchmark benchmark-chrome benchmark-firefox clean
+.PHONY: help venv install test integration-test run run-download run-latest run-latest-download run-live run-live-download run-clean run-clean-download run-firefox run-firefox-download benchmark benchmark-chrome benchmark-firefox benchmark-workers clean
 
 define run_wudd
 	$(WUDD) --browser $(BROWSER) --workers $(WORKERS) $(RUN_FLAGS) $(1)
 endef
 
 define benchmark_wudd
-	$(TIME) $(WUDD) --browser $(BROWSER) $(BENCHMARK_FLAGS) $(RUN_FLAGS)
+	$(PYTHON) -c 'import subprocess, sys, time; args = sys.argv[1:]; args = args[1:] if args[:1] == ["--"] else args; start = time.time(); code = subprocess.call(args); end = time.time(); print(f"real {end - start:.2f}s"); raise SystemExit(code)' -- $(WUDD) --browser $(BROWSER) $(BENCHMARK_FLAGS) $(RUN_FLAGS)
 endef
 
 help:
@@ -37,8 +39,9 @@ help:
 	@echo "  make benchmark             Time a live latest lookup with the current browser"
 	@echo "  make benchmark-chrome      Time the benchmark with Chrome"
 	@echo "  make benchmark-firefox     Time the benchmark with Firefox"
+	@echo "  make benchmark-workers     Time the same live sample across worker counts"
 	@echo "  make clean                 Remove generated outputs and downloads"
-	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\", BENCHMARK_FLAGS=\"$(BENCHMARK_FLAGS)\""
+	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\", BENCHMARK_FLAGS=\"$(BENCHMARK_FLAGS)\", BENCHMARK_WORKER_COUNTS=\"$(BENCHMARK_WORKER_COUNTS)\", BENCHMARK_MONTHS=$(BENCHMARK_MONTHS), BENCHMARK_UPDATE_TYPE=$(BENCHMARK_UPDATE_TYPE)"
 
 venv:
 	python3 -m venv .venv
@@ -102,6 +105,12 @@ benchmark-chrome:
 benchmark-firefox: BROWSER = firefox
 benchmark-firefox:
 	$(call benchmark_wudd,)
+
+benchmark-workers:
+	@set -e; \
+	for count in $(BENCHMARK_WORKER_COUNTS); do \
+		$(PYTHON) scripts/benchmark_workers.py --browser $(BROWSER) --workers $$count --months $(BENCHMARK_MONTHS) --update-type $(BENCHMARK_UPDATE_TYPE); \
+	done
 
 clean:
 	rm -rf downloads outputs

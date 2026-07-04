@@ -244,6 +244,7 @@ make run-live
 make benchmark
 make benchmark-chrome
 make benchmark-firefox
+make benchmark-workers
 ```
 
 You can also use the launcher directly:
@@ -251,7 +252,7 @@ You can also use the launcher directly:
 ./bin/wudd --download
 ```
 
-The Makefile also includes convenience aliases for `run-latest-download`, `run-live-download`, `run-clean`, `run-clean-download`, `run-firefox`, and `run-firefox-download`, plus the `benchmark`, `benchmark-chrome`, and `benchmark-firefox` timing targets. You can override `BROWSER`, `WORKERS`, `RUN_FLAGS`, `BENCHMARK_FLAGS`, or `INTEGRATION_BROWSER` on the command line if you want a custom combo. The benchmark targets use a live latest lookup with a single worker so Chrome and Firefox are easier to compare apples-to-apples.
+The Makefile also includes convenience aliases for `run-latest-download`, `run-live-download`, `run-clean`, `run-clean-download`, `run-firefox`, and `run-firefox-download`, plus the `benchmark`, `benchmark-chrome`, `benchmark-firefox`, and `benchmark-workers` timing targets. You can override `BROWSER`, `WORKERS`, `RUN_FLAGS`, `BENCHMARK_FLAGS`, `BENCHMARK_WORKER_COUNTS`, `BENCHMARK_MONTHS`, `BENCHMARK_UPDATE_TYPE`, or `INTEGRATION_BROWSER` on the command line if you want a custom combo. The `benchmark-workers` target runs a repeatable live lookup sample over a small date slice so you can see where extra workers stop paying off without Selenium overhead skewing the result.
 
 The integration test is optional and only runs when you set `WUDD_INTEGRATION=1`. You can also choose a browser with `WUDD_INTEGRATION_BROWSER=chrome` or `firefox`.
 
