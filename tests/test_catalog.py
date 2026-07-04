@@ -1,3 +1,4 @@
+import re
 import unittest
 from unittest.mock import patch
 
@@ -5,31 +6,80 @@ try:
   from selenium.common.exceptions import NoSuchElementException
   from selenium.webdriver.common.by import By
   from wuddlib.catalog import CatalogSearch
+  from wuddlib.catalog import CatalogSearchResult
+  from wuddlib.catalog import _clear_search_index_cache
 except Exception as import_error:  # pragma: no cover - skipped when selenium is not installed
   NoSuchElementException = Exception
   By = None
   CatalogSearch = None
+  CatalogSearchResult = None
+  _clear_search_index_cache = lambda: None
   _IMPORT_ERROR = import_error
 else:
   _IMPORT_ERROR = None
 
 
+def build_row(row_id, title, button_id=None):
+  button_id = button_id or re.sub(r'_R\d+$', '', row_id)
+  return (
+    f'<tr id="{row_id}">'
+    f'<td id="{button_id}_C1_R0">'
+    f'<a id="{button_id}_link" href="javascript:void(0);" onclick=\'goToDetails("{button_id}");\'>'
+    f'{title}'
+    '</a>'
+    '</td>'
+    f'<td><input id="{button_id}" class="flatBlueButtonDownload focus-only" type="button" value="Download" /></td>'
+    '</tr>'
+  )
+
+
+def build_page(rows, page_number, total_pages):
+  row_count = len(rows)
+  return (
+    '<html><body>'
+    f'<span>{1 if row_count else 0} - {row_count} of {row_count} (page {page_number} of {total_pages})</span>'
+    '<table id="ctl00_catalogBody_updateMatches">'
+    f'{"".join(rows)}'
+    '</table>'
+    '</body></html>'
+  )
+
+
+class FakeResponse:
+  def __init__(self, text):
+    self.text = text
+    self.encoding = 'utf-8'
+    self.apparent_encoding = 'utf-8'
+
+  def raise_for_status(self):
+    return None
+
+
+class FakeSession:
+  def __init__(self, responses):
+    self.responses = responses
+    self.headers = {}
+    self.calls = []
+
+  def get(self, url, params=None, timeout=None):
+    params = params or {}
+    self.calls.append((url, params, timeout))
+    query = params.get('q', '')
+    page = params.get('p', 0)
+    key = (query, page)
+    if key not in self.responses:
+      raise AssertionError(f'No fake response registered for {key}')
+    return self.responses[key]
+
+  def close(self):
+    return None
+
+
 class FakeElement:
-  def __init__(
-    self,
-    click_callback=None,
-    element_id='fake-id',
-    click_error=None,
-    child_elements=None,
-    text='',
-    element_lookup=None,
-  ):
+  def __init__(self, click_callback=None, element_id='fake-id', click_error=None):
     self._click_callback = click_callback
     self._element_id = element_id
     self._click_error = click_error
-    self._child_elements = child_elements or []
-    self.text = text
-    self._element_lookup = element_lookup or {}
 
   def click(self):
     if self._click_error is not None:
@@ -42,58 +92,25 @@ class FakeElement:
       return self._element_id
     return None
 
-  def find_elements(self, by, value):
-    return list(self._child_elements)
-
-  def find_element(self, by, value):
-    key = (by, value)
-    if key in self._element_lookup:
-      return self._element_lookup[key]
-    raise NoSuchElementException()
-
 
 class FakeDriver:
-  def __init__(self, result_page=3):
-    self.result_page = result_page
-    self.current_page = 1
+  def __init__(self):
     self.opened_urls = []
-    self.current_url = ''
     self.script_calls = []
-    self.fallback_rows = []
+    self.find_calls = []
+    self.button = None
 
   def get(self, url):
     self.opened_urls.append(url)
-    self.current_url = url
 
   def find_element(self, by, value):
-    if by == By.XPATH and "2025-12 Cumulative Update for Windows 11 Version 24H2 for x64" in value:
-      if self.current_page == self.result_page:
-        download_button = FakeElement(element_id='ctl00_catalogBody_downloadButton_123')
-        return FakeElement(element_id='ctl00_catalogBody_updateMatches_123', child_elements=[download_button])
-      raise NoSuchElementException()
-
-    if by == By.ID and value in {'ctl00_catalogBody_nextPageLinkText', 'ctl00_catalogBody_nextPageLinkButton'}:
-      if self.current_page < self.result_page:
-        return FakeElement(click_callback=self._advance_page, element_id=value)
-      raise NoSuchElementException()
-
+    self.find_calls.append((by, value))
+    if by == By.ID and value == getattr(self.button, '_element_id', None):
+      return self.button
     raise NoSuchElementException()
-
-  def find_elements(self, by, value):
-    if by == By.XPATH and value == "//table[@id='ctl00_catalogBody_updateMatches']//tr[td]" and 'x64-based' in self.current_url:
-      return list(self.fallback_rows)
-    return []
 
   def execute_script(self, script, element):
     self.script_calls.append((script, element.get_attribute('id')))
-    return None
-
-  def _advance_page(self):
-    self.current_page += 1
-
-  @property
-  def page_source(self):
-    return ''
 
   @property
   def window_handles(self):
@@ -107,82 +124,140 @@ class FakeDriver:
 
     return _Switcher()
 
+  @property
+  def page_source(self):
+    return ''
+
   def quit(self):
     return None
 
 
-@unittest.skipUnless(_IMPORT_ERROR is None, 'Install Selenium to run the catalog pagination unit test')
+@unittest.skipUnless(_IMPORT_ERROR is None, 'Install Selenium to run the catalog unit tests')
 class CatalogSearchTests(unittest.TestCase):
-  def test_search_advances_pages_until_result_is_found(self):
-    fake_driver = FakeDriver(result_page=3)
+  def setUp(self):
+    _clear_search_index_cache()
 
-    with patch.object(CatalogSearch, '_driver', lambda self: setattr(self, 'driver', fake_driver)), \
+  def test_search_parses_broad_http_rows_until_result_is_found(self):
+    broad_query = 'Cumulative Update for Windows 11 Version 24H2 for x64-based Systems'
+    row_1 = build_row(
+      '11111111-1111-1111-1111-111111111111_R0',
+      '2025-11 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5070000)',
+    )
+    row_2 = build_row(
+      '22222222-2222-2222-2222-222222222222_R0',
+      '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([row_1], 1, 2)),
+      (broad_query, 1): FakeResponse(build_page([row_2], 2, 2)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
         patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
         patch.object(CatalogSearch, '_dlinfo', lambda self: None):
-      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False)
+      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False, use_snapshot_cache=False)
 
     self.assertIsNotNone(search.searchresult)
-    self.assertEqual(fake_driver.current_page, 3)
-    self.assertEqual(len(fake_driver.opened_urls), 1)
-    self.assertEqual(search.searchterm, '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64')
+    self.assertEqual(search.searchresult.get_attribute('id'), '22222222-2222-2222-2222-222222222222_R0')
+    self.assertEqual(search.searchresult.get_attribute('download_button_id'), '22222222-2222-2222-2222-222222222222')
+    self.assertIn('p=1', search.searchresult.get_attribute('page_url'))
+    self.assertEqual(len(fake_session.calls), 2)
+    self.assertEqual(fake_session.calls[0][1].get('q'), broad_query)
+    self.assertNotIn('p', fake_session.calls[0][1])
+    self.assertEqual(fake_session.calls[1][1].get('p'), 1)
+
+  def test_search_reuses_broad_index_across_multiple_months(self):
+    broad_query = 'Cumulative Update for Windows 11 Version 24H2 for x64-based Systems'
+    row_1 = build_row(
+      '11111111-1111-1111-1111-111111111111_R0',
+      '2025-11 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5070000)',
+    )
+    row_2 = build_row(
+      '22222222-2222-2222-2222-222222222222_R0',
+      '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([row_1], 1, 2)),
+      (broad_query, 1): FakeResponse(build_page([row_2], 2, 2)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None):
+      search_nov = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-11', browser='chrome', foreground=False, use_snapshot_cache=False)
+      search_dec = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False, use_snapshot_cache=False)
+
+    self.assertEqual(search_nov.searchresult.get_attribute('id'), '11111111-1111-1111-1111-111111111111_R0')
+    self.assertEqual(search_dec.searchresult.get_attribute('id'), '22222222-2222-2222-2222-222222222222_R0')
+    self.assertEqual(len(fake_session.calls), 2)
 
   def test_download_button_uses_javascript_click_when_native_click_fails(self):
-    fake_driver = FakeDriver(result_page=1)
     update_id = 'ee3d478c-76c1-47ed-9749-c2e814f16001'
+    button_id = update_id
+    fake_driver = FakeDriver()
+    fake_driver.button = FakeElement(
+      element_id=button_id,
+      click_error=Exception('element not interactable'),
+    )
+    searchresult = CatalogSearchResult(
+      row_id=f'{update_id}_R0',
+      download_button_id=button_id,
+      page_url='https://www.catalog.update.microsoft.com/Search.aspx?q=test&p=2',
+      title='2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+      row_text='2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+    )
 
-    def find_element(by, value):
-      if by == By.XPATH and "2025-12 Cumulative Update for Windows 11 Version 24H2 for x64" in value:
-        return FakeElement(element_id=f'{update_id}_C1_R0')
-      if by == By.XPATH and f"//*[@id='{update_id}']" in value:
-        return FakeElement(
-          element_id=update_id,
-          click_error=Exception('element not interactable'),
-        )
-      raise NoSuchElementException()
+    def _set_searchresult(self):
+      self.searchresult = searchresult
 
-    fake_driver.find_element = find_element
+    def _set_driver(self):
+      self.driver = fake_driver
+      return fake_driver
 
-    with patch.object(CatalogSearch, '_driver', lambda self: setattr(self, 'driver', fake_driver)), \
+    with patch.object(CatalogSearch, '_searchresult', _set_searchresult), \
+        patch.object(CatalogSearch, '_driver', _set_driver), \
         patch.object(CatalogSearch, '_dlinfo', lambda self: None):
-      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False)
+      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False, use_snapshot_cache=False)
 
     self.assertIsNotNone(search.searchresult)
-    self.assertTrue(any(call[0].endswith("arguments[0].click();") for call in fake_driver.script_calls))
+    self.assertEqual(fake_driver.opened_urls, [searchresult.get_attribute('page_url')])
+    self.assertTrue(any(call[0] == "arguments[0].click();" for call in fake_driver.script_calls))
 
   def test_search_uses_kb_hint_fallback_when_exact_title_match_fails(self):
-    fake_driver = FakeDriver(result_page=1)
-    update_id = 'ee3d478c-76c1-47ed-9749-c2e814f16001'
-    download_button = FakeElement(element_id=update_id)
-    row = FakeElement(
-      element_id=f'{update_id}_R0',
-      text='2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
-      element_lookup={
-        (By.XPATH, ".//input[@type='button']"): download_button,
-      },
+    broad_query = 'Cumulative Update for Windows 11 Version 24H2 for x64-based Systems'
+    row_without_kb = build_row(
+      '33333333-3333-3333-3333-333333333333_R0',
+      '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5071111)',
     )
-    fake_driver.fallback_rows = [row]
+    row_with_kb = build_row(
+      '44444444-4444-4444-4444-444444444444_R0',
+      '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([row_without_kb, row_with_kb], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
 
-    def find_element(by, value):
-      if by == By.XPATH and "2025-12 Cumulative Update for Windows 11 Version 24H2 for x64" in value:
-        raise NoSuchElementException()
-      if by == By.XPATH and f"//*[@id='{update_id}']" in value:
-        return download_button
-      raise NoSuchElementException()
-
-    fake_driver.find_element = find_element
-
-    with patch.object(CatalogSearch, '_driver', lambda self: setattr(self, 'driver', fake_driver)), \
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
         patch.object(CatalogSearch, '_load_kb_hint', lambda self: 'KB5072033'), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
         patch.object(CatalogSearch, '_dlinfo', lambda self: None):
-      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False)
+      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser='chrome', foreground=False, use_snapshot_cache=False)
 
     self.assertIsNotNone(search.searchresult)
-    self.assertEqual(search.searchresult.get_attribute('id'), update_id)
-    self.assertEqual(len(fake_driver.opened_urls), 2)
-    self.assertIn('x64-based%20Systems', fake_driver.opened_urls[1])
+    self.assertEqual(search.searchresult.get_attribute('id'), '44444444-4444-4444-4444-444444444444_R0')
+    self.assertEqual(search.searchresult.get_attribute('download_button_id'), '44444444-4444-4444-4444-444444444444')
+    self.assertEqual(len(fake_session.calls), 1)
+    self.assertEqual(fake_session.calls[0][1].get('q'), broad_query)
 
   def test_search_uses_snapshot_fallback_when_live_search_returns_no_match(self):
-    fake_driver = FakeDriver(result_page=1)
+    exact_query = '2024-01 Cumulative Update for Windows 10 Version 21H2 for x64'
+    broad_query = 'Cumulative Update for Windows 10 Version 21H2 for x64-based Systems'
     snapshot = {
       'osver': '10',
       'release': '21H2',
@@ -194,19 +269,51 @@ class CatalogSearchTests(unittest.TestCase):
       'files': ['https://example.invalid/windows10.msu'],
       'sha1': ['de14dfac8817c1d0765b899125c63dc7b581958b'],
     }
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([], 1, 1)),
+      (exact_query, 0): FakeResponse(build_page([], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
 
-    def find_element(by, value):
-      raise NoSuchElementException()
-
-    fake_driver.find_element = find_element
-
-    with patch.object(CatalogSearch, '_driver', lambda self: setattr(self, 'driver', fake_driver)), \
-        patch.object(CatalogSearch, '_load_kb_hint', lambda self: 'KB5034122'), \
-        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: snapshot), \
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', side_effect=[None, snapshot]), \
         patch.object(CatalogSearch, '_dlinfo', lambda self: None):
       search = CatalogSearch('10', '21H2', 'x64', 'cu', '2024-01', browser='chrome', foreground=False)
 
     self.assertIsNotNone(search.searchresult)
     self.assertEqual(search.searchresult.get_attribute('id'), snapshot['updateID'])
     self.assertEqual(search.dl_info_dict['kb'], 'KB5034122')
-    self.assertEqual(len(fake_driver.opened_urls), 2)
+    self.assertEqual(len(fake_session.calls), 3)
+    self.assertEqual(fake_session.calls[0][1].get('q'), broad_query)
+    self.assertEqual(fake_session.calls[1][1].get('q'), exact_query)
+    self.assertEqual(fake_session.calls[2][1].get('q'), broad_query)
+
+  def test_search_can_disable_snapshot_cache_for_live_lookups(self):
+    broad_query = 'Cumulative Update for Windows 11 Version 24H2 for x64-based Systems'
+    row = build_row(
+      '44444444-4444-4444-4444-444444444444_R0',
+      '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([row], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', side_effect=AssertionError('snapshot cache should be disabled')), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None):
+      search = CatalogSearch(
+        '11',
+        '24H2',
+        'x64',
+        'cu',
+        '2025-12',
+        browser='chrome',
+        foreground=False,
+        use_snapshot_cache=False,
+      )
+
+    self.assertIsNotNone(search.searchresult)
+    self.assertEqual(search.searchresult.get_attribute('id'), '44444444-4444-4444-4444-444444444444_R0')
+    self.assertEqual(len(fake_session.calls), 1)

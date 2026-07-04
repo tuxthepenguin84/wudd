@@ -17,6 +17,8 @@ class AppConfig:
   latest: bool
   log_level: str
   skipsha1: bool
+  workers: int
+  use_snapshot_cache: bool
   local_dir: str
   downloads_dir: str
   outputs_dir: str

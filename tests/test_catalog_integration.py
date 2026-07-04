@@ -21,7 +21,7 @@ class CatalogIntegrationTests(unittest.TestCase):
     browser = os.getenv('WUDD_INTEGRATION_BROWSER', 'chrome')
 
     try:
-      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser=browser, foreground=False)
+      search = CatalogSearch('11', '24H2', 'x64', 'cu', '2025-12', browser=browser, foreground=False, use_snapshot_cache=False)
     except WebDriverException as error:
       self.skipTest(f'WebDriver is not available in this environment: {error}')
 
@@ -34,4 +34,3 @@ class CatalogIntegrationTests(unittest.TestCase):
     self.assertEqual(search.dl_info_dict['kb'], 'KB5072033')
     self.assertGreaterEqual(len(search.dl_info_dict.get('files', [])), 1)
     self.assertGreaterEqual(len(search.dl_info_dict.get('sha1', [])), 1)
-

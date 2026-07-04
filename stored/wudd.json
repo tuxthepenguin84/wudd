@@ -685,6 +685,222 @@
               "959682ea9e06447c3c2e5a6f0d0d8d0ade485d9e"
             ]
           }
+        },
+        "2026-01": {
+          "371ca48a-4183-4956-9c18-9da50a762ffe": {
+            "title": "2026-01 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5078129)",
+            "kb": "KB5078129",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/updt/2026/01/windows10.0-kb5078129-x64_5374b8a514d437a960b9aff0a2a970870f45666a.msu"
+            ],
+            "sha1": [
+              "5374b8a514d437a960b9aff0a2a970870f45666a"
+            ]
+          },
+          "1e756b53-f11b-40c4-b774-bedb0cc109a9": {
+            "title": "2026-01 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5073724)",
+            "kb": "KB5073724",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/01/windows10.0-kb5073724-x64_71636e5c7be4aeac22298b8ea6e4367d3c498d3d.cab"
+            ],
+            "sha1": [
+              "71636e5c7be4aeac22298b8ea6e4367d3c498d3d"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          }
+        },
+        "2026-02": {
+          "d8c14d5b-ae9d-4bb1-895b-5d7420c54c17": {
+            "title": "2026-02 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5075912)",
+            "kb": "KB5075912",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/02/windows10.0-kb5075912-x64_861d087079f7dc695d8c61a83edca82ce6039d7d.msu"
+            ],
+            "sha1": [
+              "861d087079f7dc695d8c61a83edca82ce6039d7d"
+            ]
+          },
+          "4da9413a-16ff-4330-a266-25878d7df97c": {
+            "title": "2026-02 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5075912)",
+            "kb": "KB5075912",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/02/windows10.0-kb5075912-x64_46d8f52986f1467b4b37432f16c57efd970e53de.cab"
+            ],
+            "sha1": [
+              "46d8f52986f1467b4b37432f16c57efd970e53de"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          }
+        },
+        "2026-03": {
+          "cd19dd62-f644-4583-a844-33ceae275c18": {
+            "title": "2026-03 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5078885)",
+            "kb": "KB5078885",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/03/windows10.0-kb5078885-x64_8013483b567f16e057931c30725c6c8723007a31.msu"
+            ],
+            "sha1": [
+              "8013483b567f16e057931c30725c6c8723007a31"
+            ]
+          },
+          "e3c9e6f6-9312-4bed-ad92-2bcd45e8924b": {
+            "title": "2026-03 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5078885)",
+            "kb": "KB5078885",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/03/windows10.0-kb5078885-x64_faf33bb19aa9d0cf1ec7684ebbbf7375e4b4b58a.cab"
+            ],
+            "sha1": [
+              "faf33bb19aa9d0cf1ec7684ebbbf7375e4b4b58a"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          }
+        },
+        "2026-04": {
+          "1156b3e9-ba87-4ad8-9168-87830fe7585b": {
+            "title": "2026-04 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5082200)",
+            "kb": "KB5082200",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/04/windows10.0-kb5082200-x64_3c40f2448161c62e043ee564f4ab9688117c06a6.msu"
+            ],
+            "sha1": [
+              "3c40f2448161c62e043ee564f4ab9688117c06a6"
+            ]
+          },
+          "07e72043-990e-4c96-a81b-e66675b04048": {
+            "title": "2026-04 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5082200)",
+            "kb": "KB5082200",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/04/windows10.0-kb5082200-x64_f65f065fdb7e13db7e70b2194077f18cfff4f9ff.cab"
+            ],
+            "sha1": [
+              "f65f065fdb7e13db7e70b2194077f18cfff4f9ff"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          },
+          "d7e4c53c-26ea-4455-94d7-b7433b6fd4c9": {
+            "title": "2026-04 Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows 10 Version 21H2 for x64 (KB5084067)",
+            "kb": "KB5084067",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/03/windows10.0-kb5082426-x64-ndp48_f48a8875787a9840d0768fe312057a43b6da8bea.msu",
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/03/windows10.0-kb5082419-x64-ndp481_b4ed05021a82334027ec3db380c642cf519e9cd9.msu"
+            ],
+            "sha1": [
+              "f48a8875787a9840d0768fe312057a43b6da8bea",
+              "b4ed05021a82334027ec3db380c642cf519e9cd9"
+            ]
+          }
+        },
+        "2026-05": {
+          "4686f38b-b440-49f9-8b8a-ba6cfedfee7a": {
+            "title": "2026-05 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5087544)",
+            "kb": "KB5087544",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/05/windows10.0-kb5087544-x64_a3451b8d6af9df06bd43d1b25ec3985fa0db49c3.msu"
+            ],
+            "sha1": [
+              "a3451b8d6af9df06bd43d1b25ec3985fa0db49c3"
+            ]
+          },
+          "86694279-f7f8-4061-b540-4670b242b98d": {
+            "title": "2026-05 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5087544)",
+            "kb": "KB5087544",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/05/windows10.0-kb5087544-x64_68a4c876ce2f0f6782cabf595944150e96ae0d78.cab"
+            ],
+            "sha1": [
+              "68a4c876ce2f0f678"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          },
+          "89588eaa-c6bf-4a3d-881b-69e5efe4d532": {
+            "title": "2026-05 Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows 10 Version 21H2 for x64 (KB5088859)",
+            "kb": "KB5088859",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2026/05/windows10.0-kb5087053-x64-ndp481_542bd2b99c74b7f2dd50e8283e0528b160058f91.msu",
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/05/windows10.0-kb5087064-x64-ndp48_5541701330e7e27d682d1c732d75f9ad27dfb4cd.msu"
+            ],
+            "sha1": [
+              "542bd2b99c74b7f2dd50e8283e0528b160058f91",
+              "5541701330e7e27d682d1c732d75f9ad27dfb4cd"
+            ]
+          }
+        },
+        "2026-06": {
+          "f870def1-f943-4c66-9868-fa7b6497062a": {
+            "title": "2026-06 Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5094127)",
+            "kb": "KB5094127",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/06/windows10.0-kb5094127-x64_6cc28e1a08d05bf15d7bf761ac6c4abb69b6d23e.msu"
+            ],
+            "sha1": [
+              "6cc28e1a08d05bf15d7bf761ac6c4abb69b6d23e"
+            ]
+          },
+          "fdf91399-8ff9-405f-8ea7-a6a61b3f5168": {
+            "title": "2026-06 Dynamic Cumulative Update for Windows 10 Version 21H2 for x64-based Systems (KB5094127)",
+            "kb": "KB5094127",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/06/windows10.0-kb5094127-x64_1790c1beff9dbdaa00dc411e0f6258f576f5b7e3.cab"
+            ],
+            "sha1": [
+              "1790c1beff9dbdaa00dc411e0f6258f576f5b7e3"
+            ]
+          },
+          "e66995dd-9951-4064-b4f4-c13ae9b60554": {
+            "title": "2023-03 Cumulative Update Preview for Windows 10 Version 21H2 for x64-based Systems (KB5023773)",
+            "kb": "KB5023773",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2023/03/windows10.0-kb5023773-x64_ffdee74386dcaeae70e92fe841aa3d37f58c68a6.msu"
+            ],
+            "sha1": [
+              "ffdee74386dcaeae70e92fe841aa3d37f58c68a6"
+            ]
+          }
         }
       }
     },
@@ -1685,6 +1901,108 @@
               "7a4d1b2186ea30b4ba5cc4df6988abaef2ade964"
             ]
           }
+        },
+        "2026-01": {
+          "eb6cb55e-9d00-455c-8e00-0a4be69d0cf7": {
+            "title": "2026-01 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5078129)",
+            "kb": "KB5078129",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/updt/2026/01/windows10.0-kb5078129-x64_5374b8a514d437a960b9aff0a2a970870f45666a.msu"
+            ],
+            "sha1": [
+              "5374b8a514d437a960b9aff0a2a970870f45666a"
+            ]
+          },
+          "739aea15-2a47-4b6c-95e7-1f74494d83b8": {
+            "title": "2025-10 Dynamic Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5066791)",
+            "kb": "KB5066791",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2025/10/windows10.0-kb5066791-x64_201731eae19a28ce9d6b614068f30be520104b5f.cab"
+            ],
+            "sha1": [
+              "201731eae19a28ce9d6b614068f30be520104b5f"
+            ]
+          }
+        },
+        "2026-02": {
+          "85f75256-8cf8-4aaf-9db2-139b32aa2280": {
+            "title": "2026-02 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5075912)",
+            "kb": "KB5075912",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/02/windows10.0-kb5075912-x64_861d087079f7dc695d8c61a83edca82ce6039d7d.msu"
+            ],
+            "sha1": [
+              "861d087079f7dc695d8c61a83edca82ce6039d7d"
+            ]
+          },
+          "739aea15-2a47-4b6c-95e7-1f74494d83b8": {
+            "title": "2025-10 Dynamic Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5066791)",
+            "kb": "KB5066791",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2025/10/windows10.0-kb5066791-x64_201731eae19a28ce9d6b614068f30be520104b5f.cab"
+            ],
+            "sha1": [
+              "201731eae19a28ce9d6b614068f30be520104b5f"
+            ]
+          }
+        },
+        "2026-03": {
+          "a368a53d-af28-419a-ad82-bb5fa8017069": {
+            "title": "2026-03 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5078885)",
+            "kb": "KB5078885",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/03/windows10.0-kb5078885-x64_8013483b567f16e057931c30725c6c8723007a31.msu"
+            ],
+            "sha1": [
+              "8013483b567f16e057931c30725c6c8723007a31"
+            ]
+          },
+          "739aea15-2a47-4b6c-95e7-1f74494d83b8": {
+            "title": "2025-10 Dynamic Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5066791)",
+            "kb": "KB5066791",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2025/10/windows10.0-kb5066791-x64_201731eae19a28ce9d6b614068f30be520104b5f.cab"
+            ],
+            "sha1": [
+              "201731eae19a28ce9d6b614068f30be520104b5f"
+            ]
+          }
+        },
+        "2026-04": {
+          "808a4784-e716-436d-b063-bc57f65a3c48": {
+            "title": "2026-04 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5082200)",
+            "kb": "KB5082200",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/04/windows10.0-kb5082200-x64_3c40f2448161c62e043ee564f4ab9688117c06a6.msu"
+            ],
+            "sha1": [
+              "3c40f2448161c62e043ee564f4ab9688117c06a6"
+            ]
+          }
+        },
+        "2026-05": {
+          "6982865b-9c34-4c53-b57e-4cf579356ac2": {
+            "title": "2026-05 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5087544)",
+            "kb": "KB5087544",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/05/windows10.0-kb5087544-x64_a3451b8d6af9df06bd43d1b25ec3985fa0db49c3.msu"
+            ],
+            "sha1": [
+              "a3451b8d6af9df06bd43d1b25ec3985fa0db49c3"
+            ]
+          }
+        },
+        "2026-06": {
+          "7ec9dcf4-fe90-40a3-b269-45a1aed996b6": {
+            "title": "2026-06 Cumulative Update for Windows 10 Version 22H2 for x64-based Systems (KB5094127)",
+            "kb": "KB5094127",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/secu/2026/06/windows10.0-kb5094127-x64_6cc28e1a08d05bf15d7bf761ac6c4abb69b6d23e.msu"
+            ],
+            "sha1": [
+              "6cc28e1a08d05bf15d7bf761ac6c4abb69b6d23e"
+            ]
+          }
         }
       }
     }
@@ -2115,6 +2433,162 @@
           }
         },
         "2025-10": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          }
+        },
+        "2025-11": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2025-12": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2026-01": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2026-02": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2026-03": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2026-04": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          },
+          "956de4ea-8101-4661-97e1-ef487d130f3b": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-x64_3555a2467006fed4c50b128007d115c2de9f0fc7.cab"
+            ],
+            "sha1": [
+              "3555a2467006fed4c50b128007d115c2de9f0fc7"
+            ]
+          }
+        },
+        "2026-05": {
+          "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7a3fc5e6-826c-47a3-918f-82e6dd585929/public/windows11.0-kb5066793-x64_c2161f7373f0c06757ff5abdb607f2399d86d466.msu"
+            ],
+            "sha1": [
+              "c2161f7373f0c06757ff5abdb607f2399d86d466"
+            ]
+          }
+        },
+        "2026-06": {
           "7d2bf0a7-9f97-4717-b7fc-68b53ec65cfa": {
             "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5066793)",
             "kb": "KB5066793",
@@ -2559,6 +3033,262 @@
             ],
             "sha1": [
               "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          }
+        },
+        "2025-11": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2025-12": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-01": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-02": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-03": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-04": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-05": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
+            ]
+          }
+        },
+        "2026-06": {
+          "7bd63a31-b33b-40ca-9e2d-2f950eb959ef": {
+            "title": "2025-10 Cumulative Update for Windows 11 Version 22H2 for arm64-based Systems (KB5066793)",
+            "kb": "KB5066793",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/98921740-d0be-46e6-abe8-5a8ad02bf2b8/public/windows11.0-kb5066793-arm64_807cc30ddbacf333cc512ecb21e44938da3d2b18.msu"
+            ],
+            "sha1": [
+              "807cc30ddbacf333cc512ecb21e44938da3d2b18"
+            ]
+          },
+          "7e3bf360-f1de-46f3-ae2f-6d7b0134852f": {
+            "title": "2023-04 Dynamic Cumulative Update for Windows 11 Version 22H2 for ARM64-based Systems (KB5025239)",
+            "kb": "KB5025239",
+            "files": [
+              "https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2023/04/windows11.0-kb5025239-arm64_a3cc457c1a52089664c89202cd1dcb857059fba3.cab"
+            ],
+            "sha1": [
+              "a3cc457c1a52089664c89202cd1dcb857059fba3"
+            ]
+          },
+          "2268e7b9-21c9-4158-9782-4910e1d77bbe": {
+            "title": "2025-06 Cumulative Update Preview for Windows 11 Version 22H2 for arm64-based Systems (KB5060826)",
+            "kb": "KB5060826",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/44f3fca1-9f05-454f-8031-9020af6cbffe/public/windows11.0-kb5060826-arm64_eb3a1eabb6fb566e7e514e11b701a774325f7af6.msu"
+            ],
+            "sha1": [
+              "eb3a1eabb6fb566e7e514e11b701a774325f7af6"
             ]
           }
         }
@@ -3073,6 +3803,138 @@
               "e19910906e0392876385744f955c05495a4fb16c"
             ]
           }
+        },
+        "2026-01": {
+          "4b9efbc3-c039-4199-9808-d60142fd6990": {
+            "title": "2026-01 Cumulative Update for Windows 11 Version 23H2 for x64-based Systems (KB5078132)",
+            "kb": "KB5078132",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/483ab57f-e475-440e-a444-eff7b777a577/public/windows11.0-kb5078132-x64_143b061e4c6cd4784b9e0648280b5a2f707f8fb4.msu"
+            ],
+            "sha1": [
+              "143b061e4c6cd4784b9e0648280b5a2f707f8fb4"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
+        },
+        "2026-02": {
+          "5a81600a-aea5-4af6-b4d1-e6e15e37f996": {
+            "title": "2026-02 Cumulative Update for Windows 11 Version 23H2 for x64-based Systems (KB5075941)",
+            "kb": "KB5075941",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/07012b06-1909-470c-ad1c-b3c542a02527/public/windows11.0-kb5075941-x64_550053e227ce7d6e109108e05aa816eb8cd76a91.msu"
+            ],
+            "sha1": [
+              "550053e227ce7d6e109108e05aa816eb8cd76a91"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
+        },
+        "2026-03": {
+          "36cf8619-7e32-4e58-99b5-ebceed7f3aaf": {
+            "title": "2026-03 Cumulative Update for Windows 11 Version 23H2 for x64-based Systems (KB5078883)",
+            "kb": "KB5078883",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/cc3b3a63-4780-408f-a0a9-ae941d7f0c95/public/windows11.0-kb5078883-x64_ad6670dbea0da64763fd15b25ac1d6dcd966fdca.msu"
+            ],
+            "sha1": [
+              "ad6670dbea0da64763fd15b25ac1d6dcd966fdca"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
+        },
+        "2026-04": {
+          "d76e7541-c591-40ac-b0c3-dc7938ece315": {
+            "title": "2026-04 Cumulative Update for Windows 11 Version 23H2 for x64-based Systems (KB5082052)",
+            "kb": "KB5082052",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/3cc04902-c838-42e1-a777-3d5dd5d9724a/public/windows11.0-kb5082052-x64_dd92477298afc79bcf8cfa0a0271f49ad3ed4e3f.msu"
+            ],
+            "sha1": [
+              "dd92477298afc79bcf8cfa0a0271f49ad3ed4e3f"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
+        },
+        "2026-05": {
+          "b70517c4-563e-4364-a4b7-b71863550b59": {
+            "title": "2026-05 Cumulative Update for Windows 11, version 23H2 for x64-based Systems (KB5087420)",
+            "kb": "KB5087420",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/7734bd06-a054-40da-ac09-6414bbf2e86c/public/windows11.0-kb5087420-x64_b622068c56b07702da46ec832ad03a77a61426b8.msu"
+            ],
+            "sha1": [
+              "b622068c56b07702da46ec832ad03a77a61426b8"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
+        },
+        "2026-06": {
+          "ff4f1f90-ba62-4a0d-819f-6078b99292e2": {
+            "title": "2026-06 Cumulative Update for Windows 11, version 23H2 for x64-based Systems (KB5093998)",
+            "kb": "KB5093998",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/e1829e07-08c7-4300-a0dc-7b0f93c9d9ac/public/windows11.0-kb5093998-x64_86c3045c44c406377df40661d15a2d8354e4222c.msu"
+            ],
+            "sha1": [
+              "86c3045c44c406377df40661d15a2d8354e4222c"
+            ]
+          },
+          "fb99dd3b-c45d-4179-8bcc-af0cc2f59cca": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for x64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0ae35ea1-eb3d-4292-b591-d008f9e2bed2/public/windows11.0-kb5070312-x64_5910623ee4dcfc57c2ee26088418f446d2c72ca9.msu"
+            ],
+            "sha1": [
+              "5910623ee4dcfc57c2ee26088418f446d2c72ca9"
+            ]
+          }
         }
       },
       "arm64": {
@@ -3583,11 +4445,213 @@
               "0fbcfe5586583fb737a8b1347ebdc3aeb7b92beb"
             ]
           }
+        },
+        "2026-01": {
+          "dae2527f-1cb7-4573-b759-8c9a38ba4646": {
+            "title": "2026-01 Cumulative Update for Windows 11 Version 23H2 for arm64-based Systems (KB5078132)",
+            "kb": "KB5078132",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/e3fa82bf-1bc9-4894-a269-9135e92755e2/public/windows11.0-kb5078132-arm64_c30315261fd627102a614fb55c67c97319424bbf.msu"
+            ],
+            "sha1": [
+              "c30315261fd627102a614fb55c67c97319424bbf"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
+        },
+        "2026-02": {
+          "bb7816f4-b239-4865-88e7-6068d913a940": {
+            "title": "2026-02 Cumulative Update for Windows 11 Version 23H2 for arm64-based Systems (KB5075941)",
+            "kb": "KB5075941",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/9aee8694-dfc1-4c80-9e23-3ada59b84585/public/windows11.0-kb5075941-arm64_9b9b52f2b7cda08123fb46b7925d5fabfaf22607.msu"
+            ],
+            "sha1": [
+              "9b9b52f2b7cda08123fb46b7925d5fabfaf22607"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
+        },
+        "2026-03": {
+          "6f133128-c3e3-4248-8641-17d66ad92a22": {
+            "title": "2026-03 Cumulative Update for Windows 11 Version 23H2 for arm64-based Systems (KB5078883)",
+            "kb": "KB5078883",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/95229272-5c5c-406d-99af-3c5769383455/public/windows11.0-kb5078883-arm64_88b84d19d61002b6eff044565a014304e8577dc9.msu"
+            ],
+            "sha1": [
+              "88b84d19d61002b6eff044565a014304e8577dc9"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
+        },
+        "2026-04": {
+          "86bc5b42-97ed-43fe-b0c8-cfba17826fcc": {
+            "title": "2026-04 Cumulative Update for Windows 11 Version 23H2 for arm64-based Systems (KB5082052)",
+            "kb": "KB5082052",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/6c73dae4-3a65-4e1a-a402-88e5e00f0854/public/windows11.0-kb5082052-arm64_5ec522085ede9032032dfb18940d00e7c977c90c.msu"
+            ],
+            "sha1": [
+              "5ec522085ede9032032dfb18940d00e7c977c90c"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
+        },
+        "2026-05": {
+          "b39d483b-521e-416a-ac52-b55fe68cc4dd": {
+            "title": "2026-05 Cumulative Update for Windows 11, version 23H2 for arm64-based Systems (KB5087420)",
+            "kb": "KB5087420",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/56b8b04b-1c12-4c2d-bc97-6950b0a2ebbf/public/windows11.0-kb5087420-arm64_78671ae9e8ec13e7a4f4ab6fda844557b9fd4aa5.msu"
+            ],
+            "sha1": [
+              "78671ae9e8ec13e7a4f4ab6fda844557b9fd4aa5"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
+        },
+        "2026-06": {
+          "e9bc779e-a2f4-4235-903d-9fe5cce3d743": {
+            "title": "2026-06 Cumulative Update for Windows 11, version 23H2 for arm64-based Systems (KB5093998)",
+            "kb": "KB5093998",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/a8f4bce1-ccdd-43dc-88b2-b222e4b6ed27/public/windows11.0-kb5093998-arm64_13a5a702e481685e7f89e505d180c4c962f80174.msu"
+            ],
+            "sha1": [
+              "13a5a702e481685e7f89e505d180c4c962f80174"
+            ]
+          },
+          "ebe214f3-6c19-4603-a4eb-8ebbb84a602d": {
+            "title": "2025-11 Cumulative Update Preview for Windows 11 Version 23H2 for arm64-based Systems (KB5070312)",
+            "kb": "KB5070312",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8482a54-fa2b-4ba4-9714-cf1810a75141/public/windows11.0-kb5070312-arm64_0fdd105eb705b6afb5a12dc16b1ea8df4b19467b.msu"
+            ],
+            "sha1": [
+              "0fdd105eb705b6afb5a12dc16b1ea8df4b19467b"
+            ]
+          }
         }
       }
     },
     "24H2": {
       "x64": {
+        "2024-01": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu"
+            ],
+            "sha1": [
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8",
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330"
+            ]
+          }
+        },
+        "2024-02": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2024-03": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2024-04": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu"
+            ],
+            "sha1": [
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8",
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330"
+            ]
+          }
+        },
+        "2024-05": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
         "2024-06": {
           "a3000c2f-dc56-4eb1-9ddb-3d36fe3baf41": {
             "title": "2024-06 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5039304)",
@@ -4003,9 +5067,175 @@
               "a62291f0bad9123842bf15dcdd75d807d2a2c76a"
             ]
           }
+        },
+        "2026-01": {
+          "6a82df81-51b3-4ef8-9a99-fc3e85538aca": {
+            "title": "2026-01 Cumulative Update Preview for Windows 11 Version 24H2 for x64-based Systems (KB5074105) (26100.7705)",
+            "kb": "KB5074105",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1f3ba14b-3831-4dd8-8839-b63b795497e4/public/windows11.0-kb5074105-x64_74e1f93136eef7114e2bed8ff032b049ec62992a.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "74e1f93136eef7114e2bed8ff032b049ec62992a",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2026-02": {
+          "7fbb596d-bbc8-49e3-a0ed-ac185cf55ddb": {
+            "title": "2026-02 Cumulative Update Preview for Windows 11 Version 24H2 for x64-based Systems (KB5077241) (26100.7922)",
+            "kb": "KB5077241",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/66b28d24-251c-4c0a-8a19-82bc599deac3/public/windows11.0-kb5077241-x64_739bca934f7f45038f9752637f632afa52c35f75.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "739bca934f7f45038f9752637f632afa52c35f75",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2026-03": {
+          "10b42b94-4b75-4bd4-aae1-326cd74ddcd0": {
+            "title": "2026-03 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5086672) (26100.8117)",
+            "kb": "KB5086672",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/b1318d9f-d80a-4556-ab47-792cf5303d43/public/windows11.0-kb5086672-x64_97df4ed279e18da5b02308a5a3361313520fd346.msu"
+            ],
+            "sha1": [
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8",
+              "97df4ed279e18da5b02308a5a3361313520fd346"
+            ]
+          },
+          "c1c2a099-be0e-411d-a390-1a35d61348e3": {
+            "title": "2026-03 Cumulative Update Preview for Windows 11 Version 24H2 for x64-based Systems (KB5079391) (26100.8116)",
+            "kb": "KB5079391",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f7b8d266-ccc7-4709-81f4-28bcd6c45062/public/windows11.0-kb5079391-x64_0a0129ebe88fdd66e19ac7d40d9cddd0b18c3332.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "0a0129ebe88fdd66e19ac7d40d9cddd0b18c3332",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2026-04": {
+          "47747e3d-b75a-4e7f-a851-3e5f22e17f7e": {
+            "title": "2026-04 Cumulative Update Preview for Windows 11 Version 24H2 for x64-based Systems (KB5083631) (26100.8328)",
+            "kb": "KB5083631",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/c6284be9-cb7a-4b54-b71a-403491a2b2ec/public/windows11.0-kb5083631-x64_a9979e387050abf3bc9feca1a024033209cbc804.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "a9979e387050abf3bc9feca1a024033209cbc804",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
+        },
+        "2026-05": {
+          "74c3777f-b3db-48a6-a9a7-7000dc3e8385": {
+            "title": "2026-05 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5089573) (26100.8524)",
+            "kb": "KB5089573",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/17caea23-ee77-4074-87dc-5820c52a9f45/public/windows11.0-kb5089573-x64_cc650a5cea73a2bca157ef66e0ce88f5c1d95e14.msu"
+            ],
+            "sha1": [
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8",
+              "cc650a5cea73a2bca157ef66e0ce88f5c1d95e14"
+            ]
+          }
+        },
+        "2026-06": {
+          "dc5119c9-8d2c-4b77-9270-1e3b7fdd91bb": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for x64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/0c7a093a-ecf2-4386-afa5-75bcd763ae00/public/windows11.0-kb5095093-x64_871fd990cedd9d3da6c90ca8b1dd0cc62b42c330.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/d8b7f92b-bd35-4b4c-96e5-46ce984b31e0/public/windows11.0-kb5043080-x64_953449672073f8fb99badb4cc6d5d7849b9c83e8.msu"
+            ],
+            "sha1": [
+              "871fd990cedd9d3da6c90ca8b1dd0cc62b42c330",
+              "953449672073f8fb99badb4cc6d5d7849b9c83e8"
+            ]
+          }
         }
       },
       "arm64": {
+        "2024-01": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89"
+            ]
+          }
+        },
+        "2024-02": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2024-03": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2024-04": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2024-05": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
         "2024-06": {
           "3e971375-1559-4321-81e9-82e9e866197e": {
             "title": "2024-06 Cumulative Update for Windows 11 Version 24H2 for arm64-based Systems (KB5039304)",
@@ -4419,6 +5649,102 @@
             "sha1": [
               "c97814ea6abedc595ea3ba3a2161e77b7c479bcc",
               "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2026-01": {
+          "7e365dc1-0032-4381-8597-d67808cf6399": {
+            "title": "2026-01 Cumulative Update Preview for Windows 11 Version 24H2 for arm64-based Systems (KB5074105) (26100.7705)",
+            "kb": "KB5074105",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/c0006a9a-e5f4-4ac8-8399-2fd5b0af9d47/public/windows11.0-kb5074105-arm64_e07308c4ec1ad810544f6cddd3e7c1cb50373e9f.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "e07308c4ec1ad810544f6cddd3e7c1cb50373e9f",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2026-02": {
+          "e4369d21-5018-45ee-9547-bf4fc7fbc3c2": {
+            "title": "2026-02 Cumulative Update Preview for Windows 11 Version 24H2 for arm64-based Systems (KB5077241) (26100.7922)",
+            "kb": "KB5077241",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/c262753d-a680-40e6-b72a-2a382dc7e85a/public/windows11.0-kb5077241-arm64_5c2929b666d744c592cb156b516c41291b787f50.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "5c2929b666d744c592cb156b516c41291b787f50"
+            ]
+          }
+        },
+        "2026-03": {
+          "53dba821-e08e-4b49-9064-49439bec8983": {
+            "title": "2026-03 Cumulative Update for Windows 11 Version 24H2 for arm64-based Systems (KB5086672) (26100.8117)",
+            "kb": "KB5086672",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/4425d42d-e8df-46a5-8496-b0dfa184d4df/public/windows11.0-kb5086672-arm64_ec8e69856b92118f17bac6e2046f54b3c87e59b0.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "ec8e69856b92118f17bac6e2046f54b3c87e59b0"
+            ]
+          },
+          "28be7eb0-0752-48f3-b59e-5b9a97c85b56": {
+            "title": "2026-03 Cumulative Update Preview for Windows 11 Version 24H2 for arm64-based Systems (KB5079391) (26100.8116)",
+            "kb": "KB5079391",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/61771621-5ca2-4703-bbb3-248902637c93/public/windows11.0-kb5079391-arm64_8a21a1618615fd6b461924a8e5ec5e382e95dd46.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu"
+            ],
+            "sha1": [
+              "8a21a1618615fd6b461924a8e5ec5e382e95dd46",
+              "df540a05f9b118e339c5520f4090bb5d450f090b"
+            ]
+          }
+        },
+        "2026-04": {
+          "78068568-cb1e-401b-8fa7-59b72a0f6af7": {
+            "title": "2026-04 Cumulative Update Preview for Windows 11 Version 24H2 for arm64-based Systems (KB5083631) (26100.8328)",
+            "kb": "KB5083631",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/ac7482c6-b394-42d4-bf8f-2b25580b8bbd/public/windows11.0-kb5083631-arm64_92a44384a8dcf79745252242d429b6b504dafb61.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "92a44384a8dcf79745252242d429b6b504dafb61"
+            ]
+          }
+        },
+        "2026-05": {
+          "8badef70-5f5a-47f2-a936-a4ecc4e859d7": {
+            "title": "2026-05 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5089573) (26100.8524)",
+            "kb": "KB5089573",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/476915d8-ce9e-4ec7-b87a-5a94cbaa9f1a/public/windows11.0-kb5089573-arm64_dc7931529f38981863b2165eae1d1779533b99fb.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "dc7931529f38981863b2165eae1d1779533b99fb"
+            ]
+          }
+        },
+        "2026-06": {
+          "70f185dd-0bbb-4c6d-9465-eca993ddbc69": {
+            "title": "2026-06 Cumulative Update Preview for Windows 11, version 24H2 for arm64-based Systems (KB5095093) (26100.8737)",
+            "kb": "KB5095093",
+            "files": [
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/f263aa64-f367-42f0-9cad-328f342b93f7/public/windows11.0-kb5043080-arm64_df540a05f9b118e339c5520f4090bb5d450f090b.msu",
+              "https://catalog.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/1d91c615-c0d3-4796-9d66-385cf9288556/public/windows11.0-kb5095093-arm64_acf8dc3a1e99ebadceea4bef641708f3f6778e89.msu"
+            ],
+            "sha1": [
+              "df540a05f9b118e339c5520f4090bb5d450f090b",
+              "acf8dc3a1e99ebadceea4bef641708f3f6778e89"
             ]
           }
         }

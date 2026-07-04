@@ -22,6 +22,16 @@ class CliTests(unittest.TestCase):
     self.assertFalse(args.latest)
     self.assertEqual(args.logging, 'info')
     self.assertFalse(args.skipsha1)
+    self.assertEqual(args.workers, 4)
+    self.assertTrue(args.use_snapshot_cache)
+
+  def test_build_parser_help_shows_defaults(self):
+    import wudd
+
+    help_text = wudd.build_parser().format_help()
+
+    self.assertIn('--workers WORKERS', help_text)
+    self.assertIn('Parallel lookup workers (default: 4)', help_text)
 
   def test_main_loads_config_and_invokes_runner(self):
     import wudd
@@ -41,6 +51,8 @@ class CliTests(unittest.TestCase):
       fake_config.latest = True
       fake_config.log_level = 'debug'
       fake_config.skipsha1 = True
+      fake_config.workers = 4
+      fake_config.use_snapshot_cache = False
       fake_config.local_dir = tmp_dir
       fake_config.downloads_dir = str(Path(tmp_dir) / 'downloads')
       fake_config.outputs_dir = str(Path(tmp_dir) / 'outputs')
@@ -60,6 +72,8 @@ class CliTests(unittest.TestCase):
           latest=True,
           logging='debug',
           skipsha1=True,
+          workers=4,
+          use_snapshot_cache=False,
         )
 
         wudd.main()
@@ -73,3 +87,38 @@ class CliTests(unittest.TestCase):
         datefmt="%Y-%m-%d %H:%M:%S",
         level=10,
       )
+
+  def test_main_exits_cleanly_on_keyboard_interrupt(self):
+    import wudd
+
+    fake_runner = types.ModuleType('wuddlib.runner')
+    fake_runner.run = Mock(side_effect=KeyboardInterrupt())
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+      osinfo_path = Path(tmp_dir) / 'osinfo.json'
+      osinfo_path.write_text('{"10": {"releases": {}}}', encoding='utf-8')
+
+      with patch.object(wudd, 'build_parser') as build_parser_mock, \
+          patch.object(wudd, 'load_json_file', return_value={'10': {'releases': {}}}), \
+          patch.object(wudd, 'AppConfig') as app_config_mock, \
+          patch.dict(sys.modules, {'wuddlib.runner': fake_runner}), \
+          patch('os.path.abspath', return_value=str(Path(tmp_dir) / 'wudd.py')), \
+          patch('os.path.dirname', return_value=tmp_dir), \
+          patch('builtins.print') as print_mock:
+        build_parser_mock.return_value.parse_args.return_value = types.SimpleNamespace(
+          browser='chrome',
+          clean=False,
+          download=False,
+          foreground=False,
+          latest=False,
+          logging='info',
+          skipsha1=False,
+          workers=4,
+          use_snapshot_cache=True,
+        )
+
+        with self.assertRaises(SystemExit) as exit_ctx:
+          wudd.main()
+
+    self.assertEqual(exit_ctx.exception.code, 130)
+    print_mock.assert_called_once_with('Interrupted, exiting.', file=sys.stderr)

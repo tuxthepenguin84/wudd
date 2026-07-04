@@ -15,6 +15,8 @@ class DummyConfig:
   foreground: bool = False
   latest: bool = False
   skipsha1: bool = False
+  workers: int = 1
+  use_snapshot_cache: bool = True
   today: date = date(2026, 7, 4)
   downloads_dir: str = '/tmp/downloads'
   outputs_dir: str = '/tmp/outputs'
@@ -24,41 +26,58 @@ class RunnerTests(unittest.TestCase):
   def _import_runner_with_fake_catalog(self):
     fake_catalog = types.ModuleType('wuddlib.catalog')
 
-    class FakeCatalogSearch:
+    class FakeCatalogSearchBatch:
       instances = []
 
-      def __init__(self, osver, release, arch, update_type, update_date, browser, foreground):
+      def __init__(
+        self,
+        osver,
+        release,
+        arch,
+        update_type,
+        browser,
+        foreground,
+        use_snapshot_cache=True,
+        prime_update_date=None,
+      ):
         self.osver = osver
         self.release = release
         self.arch = arch
         self.update_type = update_type
-        self.update_date = update_date
         self.browser = browser
         self.foreground = foreground
-        self.searchresult = True
-        self.dl_info_dict = {
-          'osver': osver,
-          'release': release,
-          'arch': arch,
-          'date': update_date,
-          'title': 'title',
-          'kb': 'KB1',
-          'updateID': f'{osver}-{release}-{arch}-{update_type}-{update_date}',
-          'files': [],
-          'sha1': [],
-        }
-        FakeCatalogSearch.instances.append(self)
+        self.use_snapshot_cache = use_snapshot_cache
+        self.prime_update_date = prime_update_date
+        self.resolve_calls = []
+        FakeCatalogSearchBatch.instances.append(self)
 
-    fake_catalog.CatalogSearch = FakeCatalogSearch
+      def resolve(self, update_date):
+        self.resolve_calls.append(update_date)
+        return types.SimpleNamespace(
+          searchresult=True,
+          dl_info_dict={
+            'osver': self.osver,
+            'release': self.release,
+            'arch': self.arch,
+            'date': update_date,
+            'title': 'title',
+            'kb': 'KB1',
+            'updateID': f'{self.osver}-{self.release}-{self.arch}-{self.update_type}-{update_date}',
+            'files': [],
+            'sha1': [],
+          },
+        )
+
+    fake_catalog.CatalogSearchBatch = FakeCatalogSearchBatch
 
     with patch.dict(sys.modules, {'wuddlib.catalog': fake_catalog}):
       runner = importlib.import_module('wuddlib.runner')
       runner = importlib.reload(runner)
 
-    return runner, FakeCatalogSearch
+    return runner, FakeCatalogSearchBatch
 
   def test_run_uses_date_range_and_writes_outputs_for_each_update(self):
-    runner, FakeCatalogSearch = self._import_runner_with_fake_catalog()
+    runner, FakeCatalogSearchBatch = self._import_runner_with_fake_catalog()
     config = DummyConfig(latest=False, download=True)
     os_json = {
       '10': {
@@ -83,14 +102,15 @@ class RunnerTests(unittest.TestCase):
       runner.run(os_json, config)
 
     reset_files_mock.assert_called_once_with(config.downloads_dir, config.outputs_dir, config.clean, config.download)
-    self.assertEqual(len(FakeCatalogSearch.instances), 4)
-    self.assertEqual([instance.update_date for instance in FakeCatalogSearch.instances], ['2026-05', '2026-06', '2026-05', '2026-06'])
+    self.assertEqual(len(FakeCatalogSearchBatch.instances), 2)
+    self.assertEqual([instance.prime_update_date for instance in FakeCatalogSearchBatch.instances], ['2026-05', '2026-05'])
+    self.assertEqual([sorted(instance.resolve_calls) for instance in FakeCatalogSearchBatch.instances], [['2026-05', '2026-06'], ['2026-05', '2026-06']])
     print_wudd_mock.assert_called()
     self.assertEqual(save_wudd_mock.call_count, 4)
     self.assertEqual(download_wudd_mock.call_count, 4)
 
   def test_run_uses_latest_patch_tuesday_when_requested(self):
-    runner, FakeCatalogSearch = self._import_runner_with_fake_catalog()
+    runner, FakeCatalogSearchBatch = self._import_runner_with_fake_catalog()
     config = DummyConfig(latest=True, download=False)
     os_json = {
       '11': {
@@ -114,6 +134,6 @@ class RunnerTests(unittest.TestCase):
         patch.object(runner, 'download_wudd'):
       runner.run(os_json, config)
 
-    self.assertEqual(len(FakeCatalogSearch.instances), 1)
-    self.assertEqual(FakeCatalogSearch.instances[0].update_date, '2026-06')
-
+    self.assertEqual(len(FakeCatalogSearchBatch.instances), 1)
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].prime_update_date, '2026-06')
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].resolve_calls, ['2026-06'])

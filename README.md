@@ -208,7 +208,7 @@ python3 wudd.py --download
 Useful flags:
 ``` Bash
 usage: wudd.py [-h] [--browser {chrome,firefox}] [--clean] [--download] [--foreground] [--latest] [--logging {debug,info,warning,error,critical}]
-               [--skipsha1]
+               [--no-snapshot-cache] [--skipsha1] [--workers WORKERS]
 
 Windows Update Direct Download
 
@@ -222,11 +222,15 @@ options:
   --latest              Only pulls the latest updates, ignores start/end dates
   --logging {debug,info,warning,error,critical}
                         Log level
+  --no-snapshot-cache    Disable local snapshot cache and use live catalog lookups only
   --skipsha1            Skip sha1 hash check
+  --workers WORKERS     Parallel lookup workers (default: 4)
 ```
 
 Outputs are written to `outputs/wudd.csv`, `outputs/wudd.json`, and `outputs/wudd.txt`. Downloaded files land in `downloads/<osver>/<release>/<arch>/<YYYY-MM>/`.
 The output files are updated in place and kept in a stable sort order, so reruns add new findings without forcing you to wipe the directory first.
+Use `--no-snapshot-cache` when you want to bypass the local historical cache and force live catalog lookups for all results.
+Use `--workers` to control how many month lookups run in parallel. The default is `4`, and a value of `1` disables concurrency.
 
 If you are using the repo's local virtual environment, these Make targets are handy:
 ``` Bash
