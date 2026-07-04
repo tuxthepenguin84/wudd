@@ -6,13 +6,24 @@ from .downloads import download_wudd
 from .outputs import print_wudd, reset_files, save_wudd
 
 
+def _run_parallel(items, workers, function):
+  if workers == 1 or len(items) <= 1:
+    return [function(item) for item in items]
+
+  results = [None] * len(items)
+  with ThreadPoolExecutor(max_workers=min(workers, len(items))) as executor:
+    futures = {executor.submit(function, item): index for index, item in enumerate(items)}
+    for future in as_completed(futures):
+      results[futures[future]] = future.result()
+  return results
+
+
 def _persist_wudd(wudd, config):
   if not wudd.searchresult:
     return
   print_wudd(wudd.dl_info_dict)
   save_wudd(wudd.dl_info_dict, config.outputs_dir)
-  if config.download:
-    download_wudd(wudd.dl_info_dict, config.downloads_dir, config.skipsha1)
+  return wudd.dl_info_dict
 
 
 def run(os_json, config):
@@ -40,16 +51,23 @@ def run(os_json, config):
             config.foreground,
             getattr(config, 'use_snapshot_cache', True),
             prime_update_date=update_dates[0],
+            browser_pool_size=workers,
           )
           try:
-            if workers == 1 or len(update_dates) == 1:
-              for update_date in update_dates:
-                _persist_wudd(batch.resolve(update_date), config)
-              continue
+            discovered = _run_parallel(update_dates, workers, batch.discover)
+            finalized = _run_parallel(discovered, workers, batch.finalize)
+            download_jobs = []
+            for wudd in finalized:
+              if not wudd.searchresult:
+                continue
+              download_jobs.append(_persist_wudd(wudd, config))
 
-            with ThreadPoolExecutor(max_workers=min(workers, len(update_dates))) as executor:
-              futures = [executor.submit(batch.resolve, update_date) for update_date in update_dates]
-              for future in as_completed(futures):
-                _persist_wudd(future.result(), config)
+            if config.download:
+              download_jobs = [job for job in download_jobs if job]
+              _run_parallel(
+                download_jobs,
+                workers,
+                lambda data: download_wudd(data, config.downloads_dir, config.skipsha1),
+              )
           finally:
             batch.close()

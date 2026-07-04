@@ -13,11 +13,11 @@
             ],
             "start": {
               "month": 1,
-              "year": 2024
+              "year": 2022
             },
             "end": {
-              "month": 5,
-              "year": 2025
+              "month": 6,
+              "year": 2026
             }
           },
           "arm64": {
@@ -30,11 +30,11 @@
             ],
             "start": {
               "month": 1,
-              "year": 2024
+              "year": 2022
             },
             "end": {
-              "month": 5,
-              "year": 2025
+              "month": 6,
+              "year": 2026
             }
           }
         }
@@ -51,11 +51,11 @@
             ],
             "start": {
               "month": 1,
-              "year": 2024
+              "year": 2023
             },
             "end": {
-              "month": 5,
-              "year": 2025
+              "month": 6,
+              "year": 2026
             }
           },
           "arm64": {
@@ -68,11 +68,11 @@
             ],
             "start": {
               "month": 1,
-              "year": 2024
+              "year": 2023
             },
             "end": {
-              "month": 5,
-              "year": 2025
+              "month": 6,
+              "year": 2026
             }
           }
         }
@@ -92,8 +92,8 @@
               "year": 2024
             },
             "end": {
-              "month": 5,
-              "year": 2025
+              "month": 6,
+              "year": 2026
             }
           },
           "arm64": {
@@ -109,8 +109,84 @@
               "year": 2024
             },
             "end": {
-              "month": 5,
+              "month": 6,
+              "year": 2026
+            }
+          }
+        }
+      },
+      "25H2": {
+        "archs": {
+          "x64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
               "year": 2025
+            },
+            "end": {
+              "month": 6,
+              "year": 2026
+            }
+          },
+          "arm64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2025
+            },
+            "end": {
+              "month": 6,
+              "year": 2026
+            }
+          }
+        }
+      },
+      "26H1": {
+        "archs": {
+          "x64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2026
+            },
+            "end": {
+              "month": 6,
+              "year": 2026
+            }
+          },
+          "arm64": {
+            "ut": [
+              "cu",
+              "dcu",
+              "cup",
+              "dnet",
+              "dnetp"
+            ],
+            "start": {
+              "month": 1,
+              "year": 2026
+            },
+            "end": {
+              "month": 6,
+              "year": 2026
             }
           }
         }

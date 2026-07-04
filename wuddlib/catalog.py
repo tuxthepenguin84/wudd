@@ -9,6 +9,7 @@ import urllib.parse
 from functools import lru_cache
 from contextlib import contextmanager
 import threading
+from queue import Empty, Queue
 
 import requests
 from selenium import webdriver
@@ -222,31 +223,49 @@ def _build_search_context_with_driver(
   return search
 
 
-class _BrowserSession:
-  def __init__(self, browser, foreground):
+class _BrowserSessionPool:
+  def __init__(self, browser, foreground, max_size=1):
     self.browser = browser
     self.foreground = foreground
-    self._driver = None
+    self._max_size = max(1, max_size)
+    self._drivers = Queue()
+    self._created = 0
     self._lock = threading.Lock()
 
-  @property
-  def driver(self):
-    if self._driver is None:
-      self._driver = _create_webdriver(self.browser, self.foreground)
-    return self._driver
+  def _create_driver(self):
+    return _create_webdriver(self.browser, self.foreground)
 
   @contextmanager
   def use(self):
-    with self._lock:
-      yield self.driver
+    try:
+      driver = self._drivers.get_nowait()
+    except Empty:
+      driver = None
+
+    if driver is None:
+      with self._lock:
+        if self._created < self._max_size:
+          self._created += 1
+          driver = self._create_driver()
+      if driver is None:
+        driver = self._drivers.get()
+
+    try:
+      yield driver
+    finally:
+      self._drivers.put(driver)
 
   def close(self):
-    if self._driver is None:
-      return
-    try:
-      self._driver.quit()
-    finally:
-      self._driver = None
+    while True:
+      try:
+        driver = self._drivers.get_nowait()
+      except Empty:
+        break
+      try:
+        driver.quit()
+      except Exception as error:
+        logging.debug(f"Could not close browser session: {error}")
+    self._created = 0
 
 
 def _parse_total_pages(page_html):
@@ -664,7 +683,18 @@ class CatalogSearch:
 
 
 class CatalogSearchBatch:
-  def __init__(self, osver, release, arch, update_type, browser, foreground, use_snapshot_cache=True, prime_update_date=None):
+  def __init__(
+    self,
+    osver,
+    release,
+    arch,
+    update_type,
+    browser,
+    foreground,
+    use_snapshot_cache=True,
+    prime_update_date=None,
+    browser_pool_size=1,
+  ):
     self.osver = osver
     self.release = release
     self.arch = arch
@@ -674,7 +704,7 @@ class CatalogSearchBatch:
     self.use_snapshot_cache = use_snapshot_cache
     self.prime_update_date = prime_update_date
     self.search_index = None
-    self.browser_session = _BrowserSession(browser, foreground)
+    self.browser_session = _BrowserSessionPool(browser, foreground, browser_pool_size)
 
     search_context = _build_search_context(
       osver,
@@ -692,6 +722,10 @@ class CatalogSearchBatch:
       search_context.session.close()
 
   def resolve(self, update_date):
+    search = self.discover(update_date)
+    return self.finalize(search)
+
+  def discover(self, update_date):
     search = _build_search_context(
       self.osver,
       self.release,
@@ -715,18 +749,22 @@ class CatalogSearchBatch:
 
       if not search.searchresult:
         search._searchresult()
-
-      if search.searchresult and not search.dl_info_dict:
-        with self.browser_session.use() as driver:
-          search.driver = driver
-          search.owns_driver = False
-          search._dlbutton()
-          search._dlinfo()
       return search
     finally:
       search.session.close()
       if search.owns_driver and search.driver is not None:
         search.driver.quit()
+
+  def finalize(self, search):
+    if not search or not search.searchresult or search.dl_info_dict:
+      return search
+
+    with self.browser_session.use() as driver:
+      search.driver = driver
+      search.owns_driver = False
+      search._dlbutton()
+      search._dlinfo()
+    return search
 
   def close(self):
     self.browser_session.close()

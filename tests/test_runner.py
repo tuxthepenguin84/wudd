@@ -39,6 +39,7 @@ class RunnerTests(unittest.TestCase):
         foreground,
         use_snapshot_cache=True,
         prime_update_date=None,
+        browser_pool_size=1,
       ):
         self.osver = osver
         self.release = release
@@ -48,12 +49,36 @@ class RunnerTests(unittest.TestCase):
         self.foreground = foreground
         self.use_snapshot_cache = use_snapshot_cache
         self.prime_update_date = prime_update_date
-        self.resolve_calls = []
+        self.browser_pool_size = browser_pool_size
+        self.discover_calls = []
+        self.finalize_calls = []
         self.close_calls = 0
         FakeCatalogSearchBatch.instances.append(self)
 
+      def discover(self, update_date):
+        self.discover_calls.append(update_date)
+        return types.SimpleNamespace(
+          searchresult=True,
+          dl_info_dict={
+            'osver': self.osver,
+            'release': self.release,
+            'arch': self.arch,
+            'date': update_date,
+            'title': 'title',
+            'kb': 'KB1',
+            'updateID': f'{self.osver}-{self.release}-{self.arch}-{self.update_type}-{update_date}',
+            'files': [],
+            'sha1': [],
+          },
+        )
+
+      def finalize(self, wudd):
+        self.finalize_calls.append(wudd.dl_info_dict['date'])
+        return wudd
+
       def resolve(self, update_date):
-        self.resolve_calls.append(update_date)
+        self.discover_calls.append(update_date)
+        self.finalize_calls.append(update_date)
         return types.SimpleNamespace(
           searchresult=True,
           dl_info_dict={
@@ -108,7 +133,8 @@ class RunnerTests(unittest.TestCase):
     reset_files_mock.assert_called_once_with(config.downloads_dir, config.outputs_dir, config.clean, config.download)
     self.assertEqual(len(FakeCatalogSearchBatch.instances), 2)
     self.assertEqual([instance.prime_update_date for instance in FakeCatalogSearchBatch.instances], ['2026-05', '2026-05'])
-    self.assertEqual([sorted(instance.resolve_calls) for instance in FakeCatalogSearchBatch.instances], [['2026-05', '2026-06'], ['2026-05', '2026-06']])
+    self.assertEqual([sorted(instance.discover_calls) for instance in FakeCatalogSearchBatch.instances], [['2026-05', '2026-06'], ['2026-05', '2026-06']])
+    self.assertEqual([sorted(instance.finalize_calls) for instance in FakeCatalogSearchBatch.instances], [['2026-05', '2026-06'], ['2026-05', '2026-06']])
     self.assertEqual([instance.close_calls for instance in FakeCatalogSearchBatch.instances], [1, 1])
     print_wudd_mock.assert_called()
     self.assertEqual(save_wudd_mock.call_count, 4)
@@ -141,5 +167,6 @@ class RunnerTests(unittest.TestCase):
 
     self.assertEqual(len(FakeCatalogSearchBatch.instances), 1)
     self.assertEqual(FakeCatalogSearchBatch.instances[0].prime_update_date, '2026-06')
-    self.assertEqual(FakeCatalogSearchBatch.instances[0].resolve_calls, ['2026-06'])
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].discover_calls, ['2026-06'])
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].finalize_calls, ['2026-06'])
     self.assertEqual(FakeCatalogSearchBatch.instances[0].close_calls, 1)
