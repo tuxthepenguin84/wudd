@@ -18,7 +18,7 @@ def build_parser():
   arg_parser.add_argument('--latest', help='Only pulls the latest updates, ignores start/end dates', action='store_true', default=False)
   arg_parser.add_argument('--logging', help='Log level', choices=['debug', 'info', 'warning', 'error', 'critical'], default='info')
   arg_parser.add_argument('--skipsha1', help='Skip sha1 hash check', action='store_true', default=False)
-  arg_parser.add_argument('--workers', help='Parallel lookup workers', type=int, default=4)
+  arg_parser.add_argument('--workers', help='Parallel lookup workers', type=int, default=12)
   arg_parser.add_argument('--no-snapshot-cache', help='Disable local snapshot cache and use live catalog lookups only', action='store_false', dest='use_snapshot_cache', default=True)
   return arg_parser
 

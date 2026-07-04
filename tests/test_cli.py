@@ -22,7 +22,7 @@ class CliTests(unittest.TestCase):
     self.assertFalse(args.latest)
     self.assertEqual(args.logging, 'info')
     self.assertFalse(args.skipsha1)
-    self.assertEqual(args.workers, 4)
+    self.assertEqual(args.workers, 12)
     self.assertTrue(args.use_snapshot_cache)
 
   def test_build_parser_help_shows_defaults(self):
@@ -31,7 +31,7 @@ class CliTests(unittest.TestCase):
     help_text = wudd.build_parser().format_help()
 
     self.assertIn('--workers WORKERS', help_text)
-    self.assertIn('Parallel lookup workers (default: 4)', help_text)
+    self.assertIn('Parallel lookup workers (default: 12)', help_text)
 
   def test_main_loads_config_and_invokes_runner(self):
     import wudd

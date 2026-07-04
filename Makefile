@@ -3,10 +3,10 @@ PIP ?= .venv/bin/pip
 WUDD ?= ./bin/wudd
 BENCHMARK_FLAGS ?= --latest --no-snapshot-cache --workers 1
 BENCHMARK_MONTHS ?= 4
-BENCHMARK_UPDATE_TYPE ?= cu
+BENCHMARK_UPDATE_TYPES ?=
 BENCHMARK_WORKER_COUNTS ?= 4 6 8
 BROWSER ?= chrome
-WORKERS ?= 4
+WORKERS ?= 12
 RUN_FLAGS ?=
 INTEGRATION_BROWSER ?= chrome
 
@@ -41,7 +41,7 @@ help:
 	@echo "  make benchmark-firefox     Time the benchmark with Firefox"
 	@echo "  make benchmark-workers     Time the same live sample across worker counts"
 	@echo "  make clean                 Remove generated outputs and downloads"
-	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\", BENCHMARK_FLAGS=\"$(BENCHMARK_FLAGS)\", BENCHMARK_WORKER_COUNTS=\"$(BENCHMARK_WORKER_COUNTS)\", BENCHMARK_MONTHS=$(BENCHMARK_MONTHS), BENCHMARK_UPDATE_TYPE=$(BENCHMARK_UPDATE_TYPE)"
+	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\", BENCHMARK_FLAGS=\"$(BENCHMARK_FLAGS)\", BENCHMARK_WORKER_COUNTS=\"$(BENCHMARK_WORKER_COUNTS)\", BENCHMARK_MONTHS=$(BENCHMARK_MONTHS), BENCHMARK_UPDATE_TYPES=\"$(BENCHMARK_UPDATE_TYPES)\""
 
 venv:
 	python3 -m venv .venv
@@ -109,7 +109,11 @@ benchmark-firefox:
 benchmark-workers:
 	@set -e; \
 	for count in $(BENCHMARK_WORKER_COUNTS); do \
-		$(PYTHON) scripts/benchmark_workers.py --browser $(BROWSER) --workers $$count --months $(BENCHMARK_MONTHS) --update-type $(BENCHMARK_UPDATE_TYPE); \
+		if [ -n "$(BENCHMARK_UPDATE_TYPES)" ]; then \
+			$(PYTHON) scripts/benchmark_workers.py --browser $(BROWSER) --workers $$count --months $(BENCHMARK_MONTHS) --update-types $(BENCHMARK_UPDATE_TYPES); \
+		else \
+			$(PYTHON) scripts/benchmark_workers.py --browser $(BROWSER) --workers $$count --months $(BENCHMARK_MONTHS); \
+		fi; \
 	done
 
 clean:
