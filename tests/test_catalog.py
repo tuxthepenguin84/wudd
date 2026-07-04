@@ -1,4 +1,6 @@
+from contextlib import contextmanager
 import re
+import types
 import unittest
 from unittest.mock import patch
 
@@ -6,12 +8,14 @@ try:
   from selenium.common.exceptions import NoSuchElementException
   from selenium.webdriver.common.by import By
   from wuddlib.catalog import CatalogSearch
+  from wuddlib.catalog import CatalogSearchBatch
   from wuddlib.catalog import CatalogSearchResult
   from wuddlib.catalog import _clear_search_index_cache
 except Exception as import_error:  # pragma: no cover - skipped when selenium is not installed
   NoSuchElementException = Exception
   By = None
   CatalogSearch = None
+  CatalogSearchBatch = None
   CatalogSearchResult = None
   _clear_search_index_cache = lambda: None
   _IMPORT_ERROR = import_error
@@ -94,11 +98,15 @@ class FakeElement:
 
 
 class FakeDriver:
-  def __init__(self):
+  def __init__(self, window_handles=None, page_source_text=''):
     self.opened_urls = []
     self.script_calls = []
     self.find_calls = []
     self.button = None
+    self._window_handles = list(window_handles or ['main'])
+    self._page_source_text = page_source_text
+    self.current_window = self._window_handles[0]
+    self.closed_handles = []
 
   def get(self, url):
     self.opened_urls.append(url)
@@ -114,19 +122,28 @@ class FakeDriver:
 
   @property
   def window_handles(self):
-    return ['main']
+    return list(self._window_handles)
 
   @property
   def switch_to(self):
     class _Switcher:
+      def __init__(self, outer):
+        self.outer = outer
+
       def window(self, handle):
+        self.outer.current_window = handle
         return None
 
-    return _Switcher()
+    return _Switcher(self)
 
   @property
   def page_source(self):
-    return ''
+    return self._page_source_text
+
+  def close(self):
+    self.closed_handles.append(self.current_window)
+    if self.current_window in self._window_handles:
+      self._window_handles.remove(self.current_window)
 
   def quit(self):
     return None
@@ -317,3 +334,121 @@ class CatalogSearchTests(unittest.TestCase):
     self.assertIsNotNone(search.searchresult)
     self.assertEqual(search.searchresult.get_attribute('id'), '44444444-4444-4444-4444-444444444444_R0')
     self.assertEqual(len(fake_session.calls), 1)
+
+  def test_download_info_closes_popup_windows_for_browser_reuse(self):
+    page_source = (
+      "downloadInformation[0].updateID = 'abc123';\n"
+      "downloadInformation[0].enTitle = '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB5072033)';\n"
+      "downloadInformation[0].files[0].url = 'https://example.invalid/update_x64_abc123.msu';\n"
+    )
+    fake_driver = FakeDriver(window_handles=['main', 'popup'], page_source_text=page_source)
+    search = object.__new__(CatalogSearch)
+    search.driver = fake_driver
+    search.dl_info_dict = {}
+    search.osver = '11'
+    search.release = '24H2'
+    search.arch = 'x64'
+    search.date = '2025-12'
+
+    CatalogSearch._dlinfo(search)
+
+    self.assertEqual(search.dl_info_dict['updateID'], 'abc123')
+    self.assertEqual(search.dl_info_dict['kb'], 'KB5072033')
+    self.assertEqual(fake_driver.closed_handles, ['popup'])
+    self.assertEqual(fake_driver.current_window, 'main')
+
+  def test_catalog_batch_reuses_one_browser_session_across_resolves(self):
+    if CatalogSearch is None or CatalogSearchBatch is None:
+      self.skipTest('CatalogSearch is unavailable')
+
+    class FakeBrowserSession:
+      def __init__(self):
+        self._driver = None
+        self.create_count = 0
+        self.use_count = 0
+        self.close_count = 0
+
+      @property
+      def driver(self):
+        if self._driver is None:
+          self._driver = object()
+          self.create_count += 1
+        return self._driver
+
+      @contextmanager
+      def use(self):
+        self.use_count += 1
+        yield self.driver
+
+      def close(self):
+        self.close_count += 1
+
+    class FakeSearch:
+      def __init__(self, update_date):
+        self.date = update_date
+        self.driver = None
+        self.owns_driver = True
+        self.searchresult = None
+        self.dl_info_dict = {}
+        self.session = types.SimpleNamespace(close=lambda: None)
+
+      def _load_snapshot_result(self):
+        return None
+
+      def _find_indexed_searchresult(self, search_index):
+        self.searchresult = types.SimpleNamespace(
+          get_attribute=lambda name: {
+            'id': f'{self.date}-row',
+            'download_button_id': f'{self.date}-button',
+            'page_url': f'https://example.invalid/{self.date}',
+          }.get(name)
+        )
+        return self.searchresult
+
+      def _searchresult(self):
+        raise AssertionError('search discovery should not be needed for indexed batch results')
+
+      def _dlbutton(self):
+        self.dl_info_dict['driver_id'] = id(self.driver)
+
+      def _dlinfo(self):
+        self.dl_info_dict['ok'] = True
+
+    def fake_build_search_context(
+      osver,
+      release,
+      arch,
+      update_type,
+      update_date,
+      browser,
+      foreground,
+      use_snapshot_cache=True,
+      driver=None,
+    ):
+      return FakeSearch(update_date)
+
+    batch = object.__new__(CatalogSearchBatch)
+    batch.osver = '11'
+    batch.release = '24H2'
+    batch.arch = 'x64'
+    batch.update_type = 'cu'
+    batch.browser = 'chrome'
+    batch.foreground = False
+    batch.use_snapshot_cache = False
+    batch.prime_update_date = '2025-12'
+    batch.search_index = {'rows': [1], 'by_date': {'2025-12': [1], '2026-01': [1]}}
+    batch.browser_session = FakeBrowserSession()
+
+    with patch('wuddlib.catalog._build_search_context', side_effect=fake_build_search_context):
+      first = batch.resolve('2025-12')
+      second = batch.resolve('2026-01')
+
+    self.assertEqual(batch.browser_session.create_count, 1)
+    self.assertEqual(batch.browser_session.use_count, 2)
+    self.assertEqual(first.dl_info_dict['driver_id'], second.dl_info_dict['driver_id'])
+    self.assertIs(first.driver, second.driver)
+    self.assertTrue(first.dl_info_dict['ok'])
+    self.assertTrue(second.dl_info_dict['ok'])
+
+    batch.close()
+    self.assertEqual(batch.browser_session.close_count, 1)

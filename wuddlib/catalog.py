@@ -7,6 +7,8 @@ import sys
 import time
 import urllib.parse
 from functools import lru_cache
+from contextlib import contextmanager
+import threading
 
 import requests
 from selenium import webdriver
@@ -161,6 +163,42 @@ def _row_date_from_title(title):
 
 
 def _build_search_context(osver, release, arch, update_type, update_date, browser, foreground, use_snapshot_cache=True):
+  return _build_search_context_with_driver(
+    osver,
+    release,
+    arch,
+    update_type,
+    update_date,
+    browser,
+    foreground,
+    use_snapshot_cache=use_snapshot_cache,
+  )
+
+
+def _create_webdriver(browser, foreground):
+  if browser == 'firefox':
+    browser_options = FirefoxOptions()
+    if not foreground:
+      browser_options.add_argument('--headless')
+    return webdriver.Firefox(options=browser_options)
+
+  browser_options = ChromeOptions()
+  if not foreground:
+    browser_options.add_argument('--headless')
+  return webdriver.Chrome(options=browser_options)
+
+
+def _build_search_context_with_driver(
+  osver,
+  release,
+  arch,
+  update_type,
+  update_date,
+  browser,
+  foreground,
+  use_snapshot_cache=True,
+  driver=None,
+):
   search = object.__new__(CatalogSearch)
   search.osver = osver
   search.release = release
@@ -171,6 +209,8 @@ def _build_search_context(osver, release, arch, update_type, update_date, browse
   search.foreground = foreground
   search.use_snapshot_cache = use_snapshot_cache
   search.driver = None
+  search.owns_driver = driver is None
+  search.driver = driver
   search.searchresult = None
   search.dl_info_dict = {}
   search._kb_hint = None
@@ -180,6 +220,33 @@ def _build_search_context(osver, release, arch, update_type, update_date, browse
   search.fallback_searchterm = search._fallback_searchterm()
   search.searchurl = f"{CATALOG_SEARCH_URL}?q={urllib.parse.quote(search.searchterm)}"
   return search
+
+
+class _BrowserSession:
+  def __init__(self, browser, foreground):
+    self.browser = browser
+    self.foreground = foreground
+    self._driver = None
+    self._lock = threading.Lock()
+
+  @property
+  def driver(self):
+    if self._driver is None:
+      self._driver = _create_webdriver(self.browser, self.foreground)
+    return self._driver
+
+  @contextmanager
+  def use(self):
+    with self._lock:
+      yield self.driver
+
+  def close(self):
+    if self._driver is None:
+      return
+    try:
+      self._driver.quit()
+    finally:
+      self._driver = None
 
 
 def _parse_total_pages(page_html):
@@ -220,7 +287,19 @@ def _parse_search_rows(page_html, page_url):
 
 
 class CatalogSearch:
-  def __init__(self, osver, release, arch, update_type, update_date, browser, foreground, use_snapshot_cache=True):
+  def __init__(
+    self,
+    osver,
+    release,
+    arch,
+    update_type,
+    update_date,
+    browser,
+    foreground,
+    use_snapshot_cache=True,
+    driver=None,
+    owns_driver=True,
+  ):
     self.osver = osver
     self.release = release
     self.arch = arch
@@ -229,7 +308,8 @@ class CatalogSearch:
     self.browser = browser
     self.foreground = foreground
     self.use_snapshot_cache = use_snapshot_cache
-    self.driver = None
+    self.driver = driver
+    self.owns_driver = owns_driver if driver is None else False
     self.searchresult = None
     self.dl_info_dict = {}
     self._kb_hint = None
@@ -255,7 +335,7 @@ class CatalogSearch:
         self._dlinfo()
     finally:
       self.session.close()
-      if self.driver is not None:
+      if self.owns_driver and self.driver is not None:
         self.driver.quit()
 
   def _searchterm(self):
@@ -281,17 +361,8 @@ class CatalogSearch:
     if self.driver is not None:
       return self.driver
 
-    if self.browser == 'firefox':
-      browser_options = FirefoxOptions()
-      if not self.foreground:
-        browser_options.add_argument('--headless')
-      self.driver = webdriver.Firefox(options=browser_options)
-      return self.driver
-
-    browser_options = ChromeOptions()
-    if not self.foreground:
-      browser_options.add_argument('--headless')
-    self.driver = webdriver.Chrome(options=browser_options)
+    self.driver = _create_webdriver(self.browser, self.foreground)
+    self.owns_driver = True
     return self.driver
 
   def _searchresult(self):
@@ -536,9 +607,9 @@ class CatalogSearch:
       sys.exit(1)
 
   def _dlinfo(self):
-    handles = self.driver.window_handles
-    self.driver.switch_to.window(handles[-1])
     try:
+      handles = self.driver.window_handles
+      self.driver.switch_to.window(handles[-1])
       dl_info_results = []
       while dl_info_results == []:
         dl_info_pattern = r"downloadInformation\[\d+\]\.(updateID|enTitle|files\[\d+\].url)\s=.*'(.*?)';\n"
@@ -565,6 +636,31 @@ class CatalogSearch:
     except Exception as error:
       logging.error(f"An error occurred getting download info: {error}")
       sys.exit(1)
+    finally:
+      self._close_download_windows()
+
+  def _close_download_windows(self):
+    try:
+      handles = list(self.driver.window_handles)
+    except Exception as error:
+      logging.debug(f"Could not inspect download windows: {error}")
+      return
+
+    if len(handles) <= 1:
+      return
+
+    main_handle = handles[0]
+    for handle in reversed(handles[1:]):
+      try:
+        self.driver.switch_to.window(handle)
+        self.driver.close()
+      except Exception as error:
+        logging.debug(f"Could not close download window {handle}: {error}")
+
+    try:
+      self.driver.switch_to.window(main_handle)
+    except Exception as error:
+      logging.debug(f"Could not return to the main catalog window: {error}")
 
 
 class CatalogSearchBatch:
@@ -578,6 +674,7 @@ class CatalogSearchBatch:
     self.use_snapshot_cache = use_snapshot_cache
     self.prime_update_date = prime_update_date
     self.search_index = None
+    self.browser_session = _BrowserSession(browser, foreground)
 
     search_context = _build_search_context(
       osver,
@@ -620,10 +717,16 @@ class CatalogSearchBatch:
         search._searchresult()
 
       if search.searchresult and not search.dl_info_dict:
-        search._dlbutton()
-        search._dlinfo()
+        with self.browser_session.use() as driver:
+          search.driver = driver
+          search.owns_driver = False
+          search._dlbutton()
+          search._dlinfo()
       return search
     finally:
       search.session.close()
-      if search.driver is not None:
+      if search.owns_driver and search.driver is not None:
         search.driver.quit()
+
+  def close(self):
+    self.browser_session.close()

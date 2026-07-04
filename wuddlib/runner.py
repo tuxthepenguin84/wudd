@@ -41,12 +41,15 @@ def run(os_json, config):
             getattr(config, 'use_snapshot_cache', True),
             prime_update_date=update_dates[0],
           )
-          if workers == 1 or len(update_dates) == 1:
-            for update_date in update_dates:
-              _persist_wudd(batch.resolve(update_date), config)
-            continue
+          try:
+            if workers == 1 or len(update_dates) == 1:
+              for update_date in update_dates:
+                _persist_wudd(batch.resolve(update_date), config)
+              continue
 
-          with ThreadPoolExecutor(max_workers=min(workers, len(update_dates))) as executor:
-            futures = [executor.submit(batch.resolve, update_date) for update_date in update_dates]
-            for future in as_completed(futures):
-              _persist_wudd(future.result(), config)
+            with ThreadPoolExecutor(max_workers=min(workers, len(update_dates))) as executor:
+              futures = [executor.submit(batch.resolve, update_date) for update_date in update_dates]
+              for future in as_completed(futures):
+                _persist_wudd(future.result(), config)
+          finally:
+            batch.close()

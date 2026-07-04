@@ -241,6 +241,9 @@ make run
 make run-download
 make run-latest
 make run-live
+make benchmark
+make benchmark-chrome
+make benchmark-firefox
 ```
 
 You can also use the launcher directly:
@@ -248,7 +251,7 @@ You can also use the launcher directly:
 ./bin/wudd --download
 ```
 
-The Makefile also includes convenience aliases for `run-latest-download`, `run-live-download`, `run-clean`, `run-clean-download`, `run-firefox`, and `run-firefox-download`. You can override `BROWSER`, `WORKERS`, `RUN_FLAGS`, or `INTEGRATION_BROWSER` on the command line if you want a custom combo.
+The Makefile also includes convenience aliases for `run-latest-download`, `run-live-download`, `run-clean`, `run-clean-download`, `run-firefox`, and `run-firefox-download`, plus the `benchmark`, `benchmark-chrome`, and `benchmark-firefox` timing targets. You can override `BROWSER`, `WORKERS`, `RUN_FLAGS`, `BENCHMARK_FLAGS`, or `INTEGRATION_BROWSER` on the command line if you want a custom combo. The benchmark targets use a live latest lookup with a single worker so Chrome and Firefox are easier to compare apples-to-apples.
 
 The integration test is optional and only runs when you set `WUDD_INTEGRATION=1`. You can also choose a browser with `WUDD_INTEGRATION_BROWSER=chrome` or `firefox`.
 

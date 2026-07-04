@@ -4,12 +4,18 @@ WUDD ?= ./bin/wudd
 BROWSER ?= chrome
 WORKERS ?= 4
 RUN_FLAGS ?=
+TIME ?= $(PYTHON) -c 'import subprocess, sys, time; args = sys.argv[1:]; args = args[1:] if args[:1] == ["--"] else args; start = time.time(); code = subprocess.call(args); end = time.time(); print(f"real {end - start:.2f}s"); raise SystemExit(code)' --
+BENCHMARK_FLAGS ?= --latest --no-snapshot-cache --workers 1
 INTEGRATION_BROWSER ?= chrome
 
-.PHONY: help venv install test integration-test run run-download run-latest run-latest-download run-live run-live-download run-clean run-clean-download run-firefox run-firefox-download clean
+.PHONY: help venv install test integration-test run run-download run-latest run-latest-download run-live run-live-download run-clean run-clean-download run-firefox run-firefox-download benchmark benchmark-chrome benchmark-firefox clean
 
 define run_wudd
 	$(WUDD) --browser $(BROWSER) --workers $(WORKERS) $(RUN_FLAGS) $(1)
+endef
+
+define benchmark_wudd
+	$(TIME) $(WUDD) --browser $(BROWSER) $(BENCHMARK_FLAGS) $(RUN_FLAGS)
 endef
 
 help:
@@ -28,8 +34,11 @@ help:
 	@echo "  make run-clean-download    Clean outputs first, then run and download"
 	@echo "  make run-firefox           Run the default sweep with Firefox"
 	@echo "  make run-firefox-download  Firefox plus downloads"
+	@echo "  make benchmark             Time a live latest lookup with the current browser"
+	@echo "  make benchmark-chrome      Time the benchmark with Chrome"
+	@echo "  make benchmark-firefox     Time the benchmark with Firefox"
 	@echo "  make clean                 Remove generated outputs and downloads"
-	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\""
+	@echo "  Variables: BROWSER=$(BROWSER), WORKERS=$(WORKERS), RUN_FLAGS=\"$(RUN_FLAGS)\", BENCHMARK_FLAGS=\"$(BENCHMARK_FLAGS)\""
 
 venv:
 	python3 -m venv .venv
@@ -82,6 +91,17 @@ run-firefox-download: BROWSER = firefox
 run-firefox-download: RUN_FLAGS += --download
 run-firefox-download:
 	$(call run_wudd,)
+
+benchmark:
+	$(call benchmark_wudd,)
+
+benchmark-chrome: BROWSER = chrome
+benchmark-chrome:
+	$(call benchmark_wudd,)
+
+benchmark-firefox: BROWSER = firefox
+benchmark-firefox:
+	$(call benchmark_wudd,)
 
 clean:
 	rm -rf downloads outputs
