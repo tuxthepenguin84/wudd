@@ -26,6 +26,13 @@ class RunnerTests(unittest.TestCase):
   def _import_runner_with_fake_catalog(self):
     fake_catalog = types.ModuleType('wuddlib.catalog')
 
+    class FakeBrowserSessionPool:
+      def __init__(self):
+        self.close_calls = 0
+
+      def close(self):
+        self.close_calls += 1
+
     class FakeCatalogSearchBatch:
       instances = []
 
@@ -40,6 +47,7 @@ class RunnerTests(unittest.TestCase):
         use_snapshot_cache=True,
         prime_update_date=None,
         browser_pool_size=1,
+        browser_session_pool=None,
       ):
         self.osver = osver
         self.release = release
@@ -50,6 +58,7 @@ class RunnerTests(unittest.TestCase):
         self.use_snapshot_cache = use_snapshot_cache
         self.prime_update_date = prime_update_date
         self.browser_pool_size = browser_pool_size
+        self.browser_session_pool = browser_session_pool
         self.discover_calls = []
         self.finalize_calls = []
         self.close_calls = 0
@@ -97,7 +106,11 @@ class RunnerTests(unittest.TestCase):
       def close(self):
         self.close_calls += 1
 
+    def create_browser_session_pool(browser, foreground, max_size=1):
+      return FakeBrowserSessionPool()
+
     fake_catalog.CatalogSearchBatch = FakeCatalogSearchBatch
+    fake_catalog.create_browser_session_pool = create_browser_session_pool
 
     with patch.dict(sys.modules, {'wuddlib.catalog': fake_catalog}):
       runner = importlib.import_module('wuddlib.runner')

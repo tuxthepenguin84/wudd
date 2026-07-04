@@ -1,6 +1,7 @@
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .catalog import CatalogSearchBatch
+from .catalog import create_browser_session_pool
 from .config import get_dates, latest_patch_tuesday
 from .downloads import download_wudd
 from .outputs import print_wudd, reset_files, save_wudd
@@ -26,48 +27,64 @@ def _persist_wudd(wudd, config):
   return wudd.dl_info_dict
 
 
+def _resolve_update_type(task, config, browser_session_pool, workers):
+  osver, release, arch, update_type, update_dates = task
+  batch = CatalogSearchBatch(
+    osver,
+    release,
+    arch,
+    update_type,
+    config.browser,
+    config.foreground,
+    getattr(config, 'use_snapshot_cache', True),
+    prime_update_date=update_dates[0] if update_dates else None,
+    browser_pool_size=workers,
+    browser_session_pool=browser_session_pool,
+  )
+  try:
+    discovered = _run_parallel(update_dates, workers, batch.discover)
+    finalized = _run_parallel(discovered, workers, batch.finalize)
+    return [wudd for wudd in finalized if wudd.searchresult]
+  finally:
+    batch.close()
+
+
 def run(os_json, config):
   reset_files(config.downloads_dir, config.outputs_dir, config.clean, config.download)
   workers = max(1, getattr(config, 'workers', 1))
-  for osver in os_json:
-    releases = os_json[osver]['releases']
-    for release in releases:
-      arches = releases[release]['archs']
-      for arch in arches:
-        update_types = arches[arch]['ut']
-        if config.latest:
-          update_dates = latest_patch_tuesday(config.today)
-        else:
-          update_dates = get_dates(arches[arch]['start'], arches[arch]['end'])
-        for update_type in update_types:
+  browser_session_pool = create_browser_session_pool(config.browser, config.foreground, workers)
+  try:
+    update_type_jobs = []
+    for osver in os_json:
+      releases = os_json[osver]['releases']
+      for release in releases:
+        arches = releases[release]['archs']
+        for arch in arches:
+          update_types = arches[arch]['ut']
+          if config.latest:
+            update_dates = latest_patch_tuesday(config.today)
+          else:
+            update_dates = get_dates(arches[arch]['start'], arches[arch]['end'])
           if not update_dates:
             continue
-          batch = CatalogSearchBatch(
-            osver,
-            release,
-            arch,
-            update_type,
-            config.browser,
-            config.foreground,
-            getattr(config, 'use_snapshot_cache', True),
-            prime_update_date=update_dates[0],
-            browser_pool_size=workers,
-          )
-          try:
-            discovered = _run_parallel(update_dates, workers, batch.discover)
-            finalized = _run_parallel(discovered, workers, batch.finalize)
-            download_jobs = []
-            for wudd in finalized:
-              if not wudd.searchresult:
-                continue
-              download_jobs.append(_persist_wudd(wudd, config))
+          for update_type in update_types:
+            update_type_jobs.append((osver, release, arch, update_type, list(update_dates)))
 
-            if config.download:
-              download_jobs = [job for job in download_jobs if job]
-              _run_parallel(
-                download_jobs,
-                workers,
-                lambda data: download_wudd(data, config.downloads_dir, config.skipsha1),
-              )
-          finally:
-            batch.close()
+    finalized = _run_parallel(
+      update_type_jobs,
+      workers,
+      lambda task: _resolve_update_type(task, config, browser_session_pool, workers),
+    )
+    download_jobs = []
+    for wudd in [item for group in finalized for item in group]:
+      download_jobs.append(_persist_wudd(wudd, config))
+
+    if config.download:
+      download_jobs = [job for job in download_jobs if job]
+      _run_parallel(
+        download_jobs,
+        workers,
+        lambda data: download_wudd(data, config.downloads_dir, config.skipsha1),
+      )
+  finally:
+    browser_session_pool.close()

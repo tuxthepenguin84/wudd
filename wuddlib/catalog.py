@@ -189,6 +189,10 @@ def _create_webdriver(browser, foreground):
   return webdriver.Chrome(options=browser_options)
 
 
+def create_browser_session_pool(browser, foreground, max_size=1):
+  return _BrowserSessionPool(browser, foreground, max_size)
+
+
 def _build_search_context_with_driver(
   osver,
   release,
@@ -694,6 +698,7 @@ class CatalogSearchBatch:
     use_snapshot_cache=True,
     prime_update_date=None,
     browser_pool_size=1,
+    browser_session_pool=None,
   ):
     self.osver = osver
     self.release = release
@@ -704,7 +709,8 @@ class CatalogSearchBatch:
     self.use_snapshot_cache = use_snapshot_cache
     self.prime_update_date = prime_update_date
     self.search_index = None
-    self.browser_session = _BrowserSessionPool(browser, foreground, browser_pool_size)
+    self.browser_session = browser_session_pool or _BrowserSessionPool(browser, foreground, browser_pool_size)
+    self._owns_browser_session = browser_session_pool is None
 
     search_context = _build_search_context(
       osver,
@@ -767,4 +773,5 @@ class CatalogSearchBatch:
     return search
 
   def close(self):
-    self.browser_session.close()
+    if getattr(self, '_owns_browser_session', True):
+      self.browser_session.close()
