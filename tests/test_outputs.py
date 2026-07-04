@@ -1,3 +1,4 @@
+import csv
 import json
 import tempfile
 from pathlib import Path
@@ -60,7 +61,7 @@ class OutputsTests(unittest.TestCase):
       self.assertTrue((outputs_dir / 'wudd.txt').is_file())
       self.assertFalse(downloads_dir.exists())
 
-  def test_save_wudd_writes_and_dedupes_outputs(self):
+  def test_save_wudd_writes_outputs(self):
     with tempfile.TemporaryDirectory() as tmp_dir:
       downloads_dir = Path(tmp_dir) / 'downloads'
       outputs_dir = Path(tmp_dir) / 'outputs'
@@ -80,3 +81,48 @@ class OutputsTests(unittest.TestCase):
       self.assertIn('x64', json_data['11']['24H2'])
       self.assertIn('2026-06', json_data['11']['24H2']['x64'])
       self.assertIn(self.sample_data['updateID'], json_data['11']['24H2']['x64']['2026-06'])
+
+  def test_save_wudd_preserves_sorted_order_when_merging_existing_rows(self):
+    with tempfile.TemporaryDirectory() as tmp_dir:
+      downloads_dir = Path(tmp_dir) / 'downloads'
+      outputs_dir = Path(tmp_dir) / 'outputs'
+
+      reset_files(str(downloads_dir), str(outputs_dir), clean=True, download=False)
+
+      existing = {
+        '11': {
+          '24H2': {
+            'x64': {
+              '2026-06': {
+                'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee': {
+                  'title': '2026-06 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB9999998)',
+                  'kb': 'KB9999998',
+                  'files': ['https://example.com/later.msu'],
+                  'sha1': ['laterhash'],
+                }
+              }
+            }
+          }
+        }
+      }
+      (outputs_dir / 'wudd.json').write_text(json.dumps(existing), encoding='utf-8')
+
+      older_data = dict(self.sample_data)
+      older_data.update({
+        'date': '2025-12',
+        'title': '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems (KB8888888)',
+        'kb': 'KB8888888',
+        'updateID': 'ffffffff-eeee-dddd-cccc-bbbbbbbbbbbb',
+        'files': ['https://example.com/older.msu'],
+        'sha1': ['olderhash'],
+      })
+
+      save_wudd(older_data, str(outputs_dir))
+
+      with (outputs_dir / 'wudd.csv').open(newline='', encoding='utf-8') as csv_file:
+        rows = list(csv.DictReader(csv_file))
+
+      self.assertEqual(rows[0]['date'], '2025-12')
+      self.assertEqual(rows[0]['kb'], 'KB8888888')
+      self.assertEqual(rows[1]['date'], '2026-06')
+      self.assertEqual(rows[1]['kb'], 'KB9999998')

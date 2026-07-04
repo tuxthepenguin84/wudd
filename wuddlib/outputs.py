@@ -1,9 +1,25 @@
+import csv
 import json
 import logging
 import os
 import shutil
 
 from .config import load_json_file
+
+
+CSV_FIELDS = ['osver', 'release', 'arch', 'date', 'title', 'kb', 'updateID', 'files', 'sha1']
+ARCH_SORT_ORDER = {
+  'x64': 0,
+  'arm64': 1,
+  'x86': 2,
+}
+UPDATE_TYPE_SORT_ORDER = {
+  'cu': 0,
+  'dcu': 1,
+  'cup': 2,
+  'dnet': 3,
+  'dnetp': 4,
+}
 
 
 def dedupe_txt(txt_file_name):
@@ -42,6 +58,103 @@ def json_struct(json_data):
   }
 
 
+def infer_update_type(title):
+  lowered_title = title.lower()
+  if '.net framework' in lowered_title:
+    if 'preview' in lowered_title:
+      return 'dnetp'
+    return 'dnet'
+  if 'dynamic cumulative update' in lowered_title:
+    return 'dcu'
+  if 'preview' in lowered_title:
+    return 'cup'
+  return 'cu'
+
+
+def osver_sort_key(osver):
+  if str(osver).isdigit():
+    return (0, int(osver))
+  return (1, str(osver))
+
+
+def arch_sort_key(arch):
+  return (ARCH_SORT_ORDER.get(arch, 99), arch)
+
+
+def update_type_sort_key(title):
+  return UPDATE_TYPE_SORT_ORDER.get(infer_update_type(title), 99)
+
+
+def sort_output_tree(data):
+  sorted_tree = {}
+  for osver in sorted(data, key=osver_sort_key):
+    sorted_tree[osver] = {}
+    for release in sorted(data[osver]):
+      sorted_tree[osver][release] = {}
+      for arch in sorted(data[osver][release], key=arch_sort_key):
+        sorted_tree[osver][release][arch] = {}
+        for date_key in sorted(data[osver][release][arch]):
+          records = data[osver][release][arch][date_key]
+          sorted_tree[osver][release][arch][date_key] = {}
+          for update_id, record in sorted(
+            records.items(),
+            key=lambda item: (
+              update_type_sort_key(item[1]['title']),
+              item[1]['title'],
+              item[0],
+            ),
+          ):
+            sorted_tree[osver][release][arch][date_key][update_id] = record
+  return sorted_tree
+
+
+def iter_output_rows(data):
+  for osver in sorted(data, key=osver_sort_key):
+    for release in sorted(data[osver]):
+      for arch in sorted(data[osver][release], key=arch_sort_key):
+        for date_key in sorted(data[osver][release][arch]):
+          for update_id, record in sorted(
+            data[osver][release][arch][date_key].items(),
+            key=lambda item: (
+              update_type_sort_key(item[1]['title']),
+              item[1]['title'],
+              item[0],
+            ),
+          ):
+            yield {
+              'osver': osver,
+              'release': release,
+              'arch': arch,
+              'date': date_key,
+              'title': record['title'],
+              'kb': record['kb'],
+              'updateID': update_id,
+              'files': record['files'],
+              'sha1': record['sha1'],
+            }
+
+
+def write_output_files(outputs_dir, data):
+  sorted_data = sort_output_tree(data)
+  rows = list(iter_output_rows(sorted_data))
+
+  json_file_name = os.path.join(outputs_dir, 'wudd.json')
+  with open(json_file_name, 'w', encoding='utf-8') as json_file:
+    json.dump(sorted_data, json_file, indent=2)
+
+  csv_file_name = os.path.join(outputs_dir, 'wudd.csv')
+  with open(csv_file_name, 'w', encoding='utf-8', newline='') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=CSV_FIELDS)
+    writer.writeheader()
+    writer.writerows(rows)
+
+  txt_file_name = os.path.join(outputs_dir, 'wudd.txt')
+  with open(txt_file_name, 'w', encoding='utf-8') as txt_file:
+    txt_file.write('osver release arch date title kb updateID files sha1\n')
+    for row in rows:
+      txt_file.write(f"{row['osver']} {row['release']} {row['arch']} {row['date']} {row['title']} {row['kb']} {row['updateID']} {row['files']} {row['sha1']}\n")
+
+
 def print_wudd(data):
   logging.info('--------------')
   logging.info(f"OS Version: {data['osver']}")
@@ -75,20 +188,8 @@ def reset_files(downloads_dir, outputs_dir, clean, download):
 
 
 def save_wudd(data, outputs_dir):
-  csv_file_name = os.path.join(outputs_dir, 'wudd.csv')
-  with open(csv_file_name, 'a', encoding='utf-8') as csv_file:
-    csv_file.write(f"{data['osver']},{data['release']},{data['arch']},{data['date']},{data['title']},{data['kb']},{data['updateID']},{data['files']},{data['sha1']}\n")
-  dedupe_txt(csv_file_name)
-
   json_file_name = os.path.join(outputs_dir, 'wudd.json')
   json_file_data = load_json_file(json_file_name)
-  with open(json_file_name, 'w', encoding='utf-8') as json_file:
-    new_json = json_struct(data)
-    merged_json = merge_dict(json_file_data, new_json)
-    json.dump(merged_json, json_file, indent=2)
-
-  txt_file_name = os.path.join(outputs_dir, 'wudd.txt')
-  with open(txt_file_name, 'a', encoding='utf-8') as txt_file:
-    txt_file.write(f"{data['osver']} {data['release']} {data['arch']} {data['date']} {data['title']} {data['kb']} {data['updateID']} {data['files']} {data['sha1']}\n")
-  dedupe_txt(txt_file_name)
-
+  new_json = json_struct(data)
+  merged_json = merge_dict(json_file_data, new_json)
+  write_output_files(outputs_dir, merged_json)
