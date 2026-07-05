@@ -272,6 +272,82 @@ class CatalogSearchTests(unittest.TestCase):
     self.assertEqual(len(fake_session.calls), 1)
     self.assertEqual(fake_session.calls[0][1].get('q'), broad_query)
 
+  def test_search_exact_match_ignores_preview_rows_for_cu(self):
+    broad_query = 'Cumulative Update for Windows 11 for x64-based Systems'
+    stable_row = build_row(
+      '55555555-5555-5555-5555-555555555555_R0',
+      '2024-07 Cumulative Update for Windows 11 Version 22H2 for x64-based Systems (KB5040442)',
+    )
+    preview_row = build_row(
+      '66666666-6666-6666-6666-666666666666_R0',
+      '2024-07 Cumulative Update Preview for Windows 11 Version 22H2 for x64-based Systems (KB5040527)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([preview_row, stable_row], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None):
+      search = CatalogSearch('11', '22H2', 'x64', 'cu', '2024-07', browser='chrome', foreground=False, use_snapshot_cache=False)
+
+    self.assertIsNotNone(search.searchresult)
+    self.assertEqual(search.searchresult.get_attribute('id'), '55555555-5555-5555-5555-555555555555_R0')
+
+  def test_search_allows_generic_windows_11_titles_without_release_text(self):
+    broad_query = 'Cumulative Update for Windows 11 for x64-based Systems'
+    generic_row = build_row(
+      '77777777-7777-7777-7777-777777777777_R0',
+      '2024-10 Cumulative Update for Windows 11 for x64-based Systems (KB5044280)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([generic_row], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None):
+      search = CatalogSearch('11', '21H2', 'x64', 'cu', '2024-10', browser='chrome', foreground=False, use_snapshot_cache=False)
+
+    self.assertIsNotNone(search.searchresult)
+    self.assertEqual(search.searchresult.get_attribute('id'), '77777777-7777-7777-7777-777777777777_R0')
+
+  def test_searchterm_uses_generic_windows_11_query_for_21h2_and_22h2(self):
+    with patch.object(CatalogSearch, '_searchresult', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None):
+      search_21h2 = CatalogSearch('11', '21H2', 'x64', 'cu', '2024-10', browser='chrome', foreground=False, use_snapshot_cache=False)
+      search_22h2 = CatalogSearch('11', '22H2', 'x64', 'cu', '2024-10', browser='chrome', foreground=False, use_snapshot_cache=False)
+      search_24h2 = CatalogSearch('11', '24H2', 'x64', 'cu', '2024-10', browser='chrome', foreground=False, use_snapshot_cache=False)
+
+    self.assertEqual(search_21h2.searchterm, '2024-10 Cumulative Update for Windows 11 for x64')
+    self.assertEqual(search_22h2.searchterm, '2024-10 Cumulative Update for Windows 11 for x64')
+    self.assertEqual(search_24h2.searchterm, '2024-10 Cumulative Update for Windows 11 Version 24H2 for x64')
+
+  def test_search_exact_match_allows_dotnet_rows_with_for_x64_titles(self):
+    broad_query = 'Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows 10 Version 22H2 for x64'
+    dotnet_row = build_row(
+      '77777777-7777-7777-7777-777777777777_R0',
+      '2024-01 Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows 10 Version 22H2 for x64 (KB5034275)',
+    )
+    responses = {
+      (broad_query, 0): FakeResponse(build_page([dotnet_row], 1, 1)),
+    }
+    fake_session = FakeSession(responses)
+
+    with patch('wuddlib.catalog.requests.Session', return_value=fake_session), \
+        patch.object(CatalogSearch, '_load_snapshot_result', lambda self: None), \
+        patch.object(CatalogSearch, '_dlbutton', lambda self: None), \
+        patch.object(CatalogSearch, '_dlinfo', lambda self: None):
+      search = CatalogSearch('10', '22H2', 'x64', 'dnet', '2024-01', browser='chrome', foreground=False, use_snapshot_cache=False)
+
+    self.assertIsNotNone(search.searchresult)
+    self.assertEqual(search.searchresult.get_attribute('id'), '77777777-7777-7777-7777-777777777777_R0')
+
   def test_search_uses_snapshot_fallback_when_live_search_returns_no_match(self):
     exact_query = '2024-01 Cumulative Update for Windows 10 Version 21H2 for x64'
     broad_query = 'Cumulative Update for Windows 10 Version 21H2 for x64-based Systems'
@@ -354,6 +430,24 @@ class CatalogSearchTests(unittest.TestCase):
 
     self.assertEqual(search.dl_info_dict['updateID'], 'abc123')
     self.assertEqual(search.dl_info_dict['kb'], 'KB5072033')
+    self.assertEqual(fake_driver.closed_handles, ['popup'])
+    self.assertEqual(fake_driver.current_window, 'main')
+
+  def test_download_info_times_out_instead_of_hanging_forever(self):
+    fake_driver = FakeDriver(window_handles=['main', 'popup'], page_source_text='<html><body>loading</body></html>')
+    search = object.__new__(CatalogSearch)
+    search.driver = fake_driver
+    search.dl_info_dict = {}
+    search.osver = '11'
+    search.release = '24H2'
+    search.arch = 'x64'
+    search.date = '2025-12'
+    search.searchterm = '2025-12 Cumulative Update for Windows 11 Version 24H2 for x64-based Systems'
+
+    result = CatalogSearch._dlinfo(search, timeout_seconds=0)
+
+    self.assertFalse(result)
+    self.assertEqual(search.dl_info_dict, {})
     self.assertEqual(fake_driver.closed_handles, ['popup'])
     self.assertEqual(fake_driver.current_window, 'main')
 

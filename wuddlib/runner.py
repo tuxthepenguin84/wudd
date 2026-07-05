@@ -2,7 +2,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from .catalog import CatalogSearchBatch
 from .catalog import create_browser_session_pool
-from .config import get_dates, latest_patch_tuesday
+from .config import get_dates, latest_patch_tuesday, resolve_year_month
 from .downloads import download_wudd
 from .outputs import print_wudd, reset_files, save_wudd
 
@@ -27,8 +27,15 @@ def _persist_wudd(wudd, config):
   return wudd.dl_info_dict
 
 
+def _update_dates_for_type(update_type, update_dates):
+  if update_type == 'cup' and update_dates:
+    return [update_dates[-1]]
+  return list(update_dates)
+
+
 def _resolve_update_type(task, config, browser_session_pool, workers):
   osver, release, arch, update_type, update_dates = task
+  update_dates = _update_dates_for_type(update_type, update_dates)
   batch = CatalogSearchBatch(
     osver,
     release,
@@ -64,7 +71,9 @@ def run(os_json, config):
           if config.latest:
             update_dates = latest_patch_tuesday(config.today)
           else:
-            update_dates = get_dates(arches[arch]['start'], arches[arch]['end'])
+            start_date = resolve_year_month(arches[arch]['start'], config.today)
+            end_date = resolve_year_month(arches[arch]['end'], config.today)
+            update_dates = get_dates(start_date, end_date)
           if not update_dates:
             continue
           for update_type in update_types:

@@ -30,6 +30,7 @@ REQUEST_HEADERS = {
   'Accept-Language': 'en-US,en;q=0.9',
 }
 SEARCH_INDEX_CACHE = {}
+DOWNLOAD_INFO_TIMEOUT_SECONDS = 10
 
 ROW_RE = re.compile(r'<tr id="(?P<row_id>[^"]+)"[^>]*>(?P<body>.*?)</tr>', re.S | re.I)
 TITLE_RE = re.compile(r"<a[^>]+id=['\"](?P<link_id>[^'\"]+)_link['\"][^>]*>(?P<title>.*?)</a>", re.S | re.I)
@@ -83,9 +84,11 @@ def _title_matches_update_type(title, update_type):
     return 'cumulative update' in lowered_title and 'preview' in lowered_title
   if update_type == 'dnet':
     return '.net framework' in lowered_title and 'preview' not in lowered_title
-  if update_type == 'dnetp':
-    return '.net framework' in lowered_title and 'preview' in lowered_title
-  return 'cumulative update' in lowered_title and 'dynamic cumulative update' not in lowered_title
+  return (
+    'cumulative update' in lowered_title
+    and 'dynamic cumulative update' not in lowered_title
+    and 'preview' not in lowered_title
+  )
 
 
 @lru_cache(maxsize=1024)
@@ -354,8 +357,11 @@ class CatalogSearch:
 
       self._searchresult()
       if self.searchresult and not self.dl_info_dict:
-        self._dlbutton()
-        self._dlinfo()
+        button_ok = self._dlbutton()
+        info_ok = False if button_ok is False else self._dlinfo()
+        if button_ok is False or info_ok is False:
+          self.searchresult = None
+          self.dl_info_dict = {}
     finally:
       self.session.close()
       if self.owns_driver and self.driver is not None:
@@ -367,7 +373,6 @@ class CatalogSearch:
       'dcu': 'Dynamic Cumulative Update',
       'cup': 'Cumulative Update Preview',
       'dnet': 'Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1',
-      'dnetp': 'Cumulative Update Preview for .NET Framework 3.5, 4.8 and 4.8.1',
       'custom': None,
     }
     if self.type == 'custom':
@@ -375,7 +380,7 @@ class CatalogSearch:
       sys.exit(0)
     if self.type in update_type:
       update_string = update_type[self.type]
-      self.searchterm = f"{self.date} {update_string} for Windows {self.osver} Version {self.release} for {self.arch}"
+      self.searchterm = self._build_searchterm(update_string)
       return
     logging.error(f"Invalid update type: {self.type}")
     sys.exit(1)
@@ -501,7 +506,8 @@ class CatalogSearch:
     searchterm = self.searchterm.lower()
     for row in rows:
       title = (row.get_attribute('title') or '').lower()
-      if searchterm in title:
+      row_text = row.get_attribute('row_text') or ''
+      if searchterm in title and self._row_matches_metadata(title, row_text):
         return row
     return None
 
@@ -517,8 +523,9 @@ class CatalogSearch:
       return None
     kb_hint = self._load_kb_hint()
     for row in rows:
+      row_title = row.get_attribute('title') or ''
       row_text = row.get_attribute('row_text') or ''
-      if not self._row_matches_metadata(row_text):
+      if not self._row_matches_metadata(row_title, row_text):
         continue
       if kb_hint and kb_hint.lower() not in row_text.lower():
         continue
@@ -527,49 +534,82 @@ class CatalogSearch:
 
   def _fallback_searchterm(self):
     arch_term = f"{self.arch}-based Systems" if self.arch in {'x64', 'arm64', 'x86'} else self.arch
+    windows_product = self._windows_product_name()
     fallback_types = {
-      'cu': f"Cumulative Update for Windows {self.osver} Version {self.release} for {arch_term}",
-      'dcu': f"Dynamic Cumulative Update for Windows {self.osver} Version {self.release} for {arch_term}",
-      'cup': f"Cumulative Update Preview for Windows {self.osver} Version {self.release} for {arch_term}",
-      'dnet': f"Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for Windows {self.osver} Version {self.release} for {self.arch}",
-      'dnetp': f"Cumulative Update Preview for .NET Framework 3.5, 4.8 and 4.8.1 for Windows {self.osver} Version {self.release} for {self.arch}",
+      'cu': f"Cumulative Update for {windows_product} for {arch_term}",
+      'dcu': f"Dynamic Cumulative Update for {windows_product} for {arch_term}",
+      'cup': f"Cumulative Update Preview for {windows_product} for {arch_term}",
+      'dnet': f"Cumulative Update for .NET Framework 3.5, 4.8 and 4.8.1 for {windows_product} for {self.arch}",
     }
     return fallback_types.get(self.type)
+
+  def _windows_product_name(self):
+    if self.osver == '11' and self.release in {'21H2', '22H2'}:
+      return 'Windows 11'
+    return f"Windows {self.osver} Version {self.release}"
+
+  def _build_searchterm(self, update_string):
+    return f"{self.date} {update_string} for {self._windows_product_name()} for {self.arch}"
 
   def _find_fallback_searchresult(self, rows):
     kb_hint = self._load_kb_hint()
     for row in rows:
+      row_title = row.get_attribute('title') or ''
       row_text = row.get_attribute('row_text') or ''
-      if not self._row_matches_metadata(row_text):
+      if not self._row_matches_metadata(row_title, row_text):
         continue
       if kb_hint and kb_hint.lower() not in row_text.lower():
         continue
       return row
     return None
 
-  def _row_matches_metadata(self, row_text):
+  def _row_matches_metadata(self, row_title, row_text=''):
     lowered_row_text = row_text.lower()
+    lowered_title = row_title.lower()
+    lowered_text = lowered_title or lowered_row_text
+    if not lowered_text:
+      return False
+    row_date = _row_date_from_title(row_title or row_text)
+    if row_date != self.date:
+      return False
     required_fragments = [
       f"windows {self.osver}".lower(),
-      f"version {self.release}".lower(),
     ]
-    if self.arch == 'x64':
-      required_fragments.append('x64-based systems')
-    elif self.arch == 'arm64':
-      required_fragments.append('arm64-based systems')
-    elif self.arch == 'x86':
-      required_fragments.append('x86-based systems')
-
+    release_fragment = f"version {self.release}".lower()
     update_type_fragments = {
       'cu': ['cumulative update'],
       'dcu': ['dynamic cumulative update'],
       'cup': ['cumulative update', 'preview'],
       'dnet': ['.net framework'],
-      'dnetp': ['.net framework', 'preview'],
     }.get(self.type, [])
+    negative_fragments = []
+
+    if self.type in {'cu', 'dcu', 'cup'}:
+      if self.arch == 'x64':
+        required_fragments.append('x64-based systems')
+      elif self.arch == 'arm64':
+        required_fragments.append('arm64-based systems')
+      elif self.arch == 'x86':
+        required_fragments.append('x86-based systems')
+      if self.type != 'cup':
+        negative_fragments.append('preview')
+      if release_fragment not in lowered_text:
+        generic_windows_11_title = (
+          self.osver == '11'
+          and 'windows 11' in lowered_text
+          and 'version ' not in lowered_text
+        )
+        if not generic_windows_11_title:
+          return False
+    elif self.type == 'dnet':
+      required_fragments.append(f'for {self.arch}')
+      negative_fragments.append('preview')
 
     for fragment in required_fragments + update_type_fragments:
-      if fragment not in lowered_row_text:
+      if fragment not in lowered_text:
+        return False
+    for fragment in negative_fragments:
+      if fragment in lowered_text:
         return False
     return True
 
@@ -625,16 +665,20 @@ class CatalogSearch:
       logging.debug('Clicking download button...')
       if not self._click_element(dl_link, 'download button'):
         raise RuntimeError('Download button click failed')
+      return True
     except Exception as error:
       logging.error(f"An error occurred getting download button: {error}")
-      sys.exit(1)
+      return False
 
-  def _dlinfo(self):
+  def _dlinfo(self, timeout_seconds=DOWNLOAD_INFO_TIMEOUT_SECONDS):
     try:
+      started = time.monotonic()
       handles = self.driver.window_handles
       self.driver.switch_to.window(handles[-1])
       dl_info_results = []
       while dl_info_results == []:
+        if time.monotonic() - started >= timeout_seconds:
+          raise TimeoutError(f"Timed out waiting for download info for {self.searchterm}")
         dl_info_pattern = r"downloadInformation\[\d+\]\.(updateID|enTitle|files\[\d+\].url)\s=.*'(.*?)';\n"
         dl_info_results = re.findall(dl_info_pattern, self.driver.page_source)
         if dl_info_results == []:
@@ -656,9 +700,13 @@ class CatalogSearch:
           self.dl_info_dict['date'] = self.date
         else:
           self.dl_info_dict[key] = value
+      return True
+    except TimeoutError as error:
+      logging.error(f"An error occurred getting download info: {error}")
+      return False
     except Exception as error:
       logging.error(f"An error occurred getting download info: {error}")
-      sys.exit(1)
+      return False
     finally:
       self._close_download_windows()
 
@@ -768,8 +816,11 @@ class CatalogSearchBatch:
     with self.browser_session.use() as driver:
       search.driver = driver
       search.owns_driver = False
-      search._dlbutton()
-      search._dlinfo()
+      button_ok = search._dlbutton()
+      info_ok = False if button_ok is False else search._dlinfo()
+      if button_ok is False or info_ok is False:
+        search.searchresult = None
+        search.dl_info_dict = {}
     return search
 
   def close(self):

@@ -1,0 +1,37 @@
+[[targets]]
+os = "10"
+archs = ["x64"]
+updates = ["cu", "dcu", "dnet"]
+
+[targets.releases."22H2"]
+start = "2025-06"
+end = "latest_patch_tuesday"
+
+[[targets]]
+os = "11"
+archs = ["x64", "arm64"]
+updates = ["cu", "dcu", "dnet"]
+
+[targets.releases."21H2"]
+start = "2021-10"
+end = "2024-10"
+
+[targets.releases."22H2"]
+start = "2022-09"
+end = "2025-10"
+
+[targets.releases."23H2"]
+start = "2023-10"
+end = "latest_patch_tuesday"
+
+[targets.releases."24H2"]
+start = "2024-10"
+end = "latest_patch_tuesday"
+
+[targets.releases."25H2"]
+start = "2025-09"
+end = "latest_patch_tuesday"
+
+[targets.releases."26H1"]
+start = "2026-02"
+end = "latest_patch_tuesday"

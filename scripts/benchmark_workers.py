@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 import sys
 import time
 import tempfile
@@ -14,7 +13,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from wuddlib import catalog
 from wuddlib import runner
-from wuddlib.config import get_dates
+from wuddlib.config import get_dates, load_data_file, resolve_year_month
 
 
 def _build_parser():
@@ -33,14 +32,17 @@ def _year_month_dict(year_month):
 
 def main():
   args = _build_parser().parse_args()
-  osinfo = json.loads((REPO_ROOT / 'osinfo.json').read_text(encoding='utf-8'))
+  osinfo = load_data_file(REPO_ROOT / 'osinfo.toml')
 
   osver = next(iter(osinfo))
   release = next(iter(osinfo[osver]['releases']))
   arch = next(iter(osinfo[osver]['releases'][release]['archs']))
   arch_details = osinfo[osver]['releases'][release]['archs'][arch]
 
-  date_range = get_dates(arch_details['start'], arch_details['end'])
+  date_range = get_dates(
+    resolve_year_month(arch_details['start']),
+    resolve_year_month(arch_details['end']),
+  )
   if args.months > 0:
     date_range = date_range[-args.months:]
   if not date_range:

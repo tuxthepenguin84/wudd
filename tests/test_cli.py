@@ -40,8 +40,18 @@ class CliTests(unittest.TestCase):
     fake_runner.run = Mock()
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-      osinfo_path = Path(tmp_dir) / 'osinfo.json'
-      osinfo_path.write_text('{"10": {"releases": {}}}', encoding='utf-8')
+      osinfo_path = Path(tmp_dir) / 'osinfo.toml'
+      osinfo_path.write_text(
+        '[[targets]]\n'
+        'os = "10"\n'
+        'archs = ["x64"]\n'
+        'updates = ["cu"]\n'
+        '\n'
+        '[targets.releases."22H2"]\n'
+        'start = "2024-01"\n'
+        'end = "2024-02"\n',
+        encoding='utf-8',
+      )
 
       fake_config = Mock()
       fake_config.browser = 'firefox'
@@ -58,7 +68,7 @@ class CliTests(unittest.TestCase):
       fake_config.outputs_dir = str(Path(tmp_dir) / 'outputs')
 
       with patch.object(wudd, 'build_parser') as build_parser_mock, \
-          patch.object(wudd, 'load_json_file', return_value={'10': {'releases': {}}}) as load_json_mock, \
+          patch.object(wudd, 'load_data_file', return_value={'10': {'releases': {}}}) as load_json_mock, \
           patch.object(wudd, 'AppConfig', return_value=fake_config) as app_config_mock, \
           patch.dict(sys.modules, {'wuddlib.runner': fake_runner}), \
           patch('os.path.abspath', return_value=str(Path(tmp_dir) / 'wudd.py')), \
@@ -95,11 +105,21 @@ class CliTests(unittest.TestCase):
     fake_runner.run = Mock(side_effect=KeyboardInterrupt())
 
     with tempfile.TemporaryDirectory() as tmp_dir:
-      osinfo_path = Path(tmp_dir) / 'osinfo.json'
-      osinfo_path.write_text('{"10": {"releases": {}}}', encoding='utf-8')
+      osinfo_path = Path(tmp_dir) / 'osinfo.toml'
+      osinfo_path.write_text(
+        '[[targets]]\n'
+        'os = "10"\n'
+        'archs = ["x64"]\n'
+        'updates = ["cu"]\n'
+        '\n'
+        '[targets.releases."22H2"]\n'
+        'start = "2024-01"\n'
+        'end = "2024-02"\n',
+        encoding='utf-8',
+      )
 
       with patch.object(wudd, 'build_parser') as build_parser_mock, \
-          patch.object(wudd, 'load_json_file', return_value={'10': {'releases': {}}}), \
+          patch.object(wudd, 'load_data_file', return_value={'10': {'releases': {}}}), \
           patch.object(wudd, 'AppConfig') as app_config_mock, \
           patch.dict(sys.modules, {'wuddlib.runner': fake_runner}), \
           patch('os.path.abspath', return_value=str(Path(tmp_dir) / 'wudd.py')), \

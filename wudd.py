@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 
-from wuddlib.config import AppConfig, load_json_file
+from wuddlib.config import AppConfig, load_data_file
 
 
 def build_parser():
@@ -35,8 +35,8 @@ def main():
     )
 
     local_dir = os.path.dirname(os.path.abspath(__file__))
-    os_file = os.path.join(local_dir, 'osinfo.json')
-    os_json = load_json_file(os_file)
+    os_file = os.path.join(local_dir, 'osinfo.toml')
+    os_info = load_data_file(os_file)
 
     config = AppConfig(
       browser=parsed_args.browser,
@@ -57,7 +57,7 @@ def main():
 
     from wuddlib.runner import run
 
-    run(os_json, config)
+    run(os_info, config)
   except KeyboardInterrupt:
     print('Interrupted, exiting.', file=sys.stderr)
     raise SystemExit(130)

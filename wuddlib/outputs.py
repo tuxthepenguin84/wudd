@@ -4,7 +4,7 @@ import logging
 import os
 import shutil
 
-from .config import load_json_file
+from .config import load_data_file
 
 
 CSV_FIELDS = ['osver', 'release', 'arch', 'date', 'title', 'kb', 'updateID', 'files', 'sha1']
@@ -18,7 +18,6 @@ UPDATE_TYPE_SORT_ORDER = {
   'dcu': 1,
   'cup': 2,
   'dnet': 3,
-  'dnetp': 4,
 }
 
 
@@ -61,8 +60,6 @@ def json_struct(json_data):
 def infer_update_type(title):
   lowered_title = title.lower()
   if '.net framework' in lowered_title:
-    if 'preview' in lowered_title:
-      return 'dnetp'
     return 'dnet'
   if 'dynamic cumulative update' in lowered_title:
     return 'dcu'
@@ -189,7 +186,7 @@ def reset_files(downloads_dir, outputs_dir, clean, download):
 
 def save_wudd(data, outputs_dir):
   json_file_name = os.path.join(outputs_dir, 'wudd.json')
-  json_file_data = load_json_file(json_file_name)
+  json_file_data = load_data_file(json_file_name)
   new_json = json_struct(data)
   merged_json = merge_dict(json_file_data, new_json)
   write_output_files(outputs_dir, merged_json)

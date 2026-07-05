@@ -183,3 +183,64 @@ class RunnerTests(unittest.TestCase):
     self.assertEqual(FakeCatalogSearchBatch.instances[0].discover_calls, ['2026-06'])
     self.assertEqual(FakeCatalogSearchBatch.instances[0].finalize_calls, ['2026-06'])
     self.assertEqual(FakeCatalogSearchBatch.instances[0].close_calls, 1)
+
+  def test_run_resolves_latest_patch_tuesday_end_value_from_config(self):
+    runner, FakeCatalogSearchBatch = self._import_runner_with_fake_catalog()
+    config = DummyConfig(latest=False, download=False)
+    os_json = {
+      '11': {
+        'releases': {
+          '24H2': {
+            'archs': {
+              'x64': {
+                'ut': ['cu'],
+                'start': {'year': 2026, 'month': 5},
+                'end': 'latest_patch_tuesday',
+              }
+            }
+          }
+        }
+      }
+    }
+
+    with patch.object(runner, 'reset_files'), \
+        patch.object(runner, 'print_wudd'), \
+        patch.object(runner, 'save_wudd'), \
+        patch.object(runner, 'download_wudd'):
+      runner.run(os_json, config)
+
+    self.assertEqual(len(FakeCatalogSearchBatch.instances), 1)
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].discover_calls, ['2026-05', '2026-06'])
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].finalize_calls, ['2026-05', '2026-06'])
+    self.assertEqual(FakeCatalogSearchBatch.instances[0].close_calls, 1)
+
+  def test_preview_update_type_only_uses_latest_month(self):
+    runner, FakeCatalogSearchBatch = self._import_runner_with_fake_catalog()
+    config = DummyConfig(latest=False, download=False)
+    os_json = {
+      '11': {
+        'releases': {
+          '24H2': {
+            'archs': {
+              'x64': {
+                'ut': ['cu', 'cup'],
+                'start': {'year': 2026, 'month': 5},
+                'end': {'year': 2026, 'month': 6},
+              }
+            }
+          }
+        }
+      }
+    }
+
+    with patch.object(runner, 'reset_files'), \
+        patch.object(runner, 'print_wudd'), \
+        patch.object(runner, 'save_wudd'), \
+        patch.object(runner, 'download_wudd'):
+      runner.run(os_json, config)
+
+    preview_batch = next(instance for instance in FakeCatalogSearchBatch.instances if instance.update_type == 'cup')
+    stable_batch = next(instance for instance in FakeCatalogSearchBatch.instances if instance.update_type == 'cu')
+    self.assertEqual(stable_batch.discover_calls, ['2026-05', '2026-06'])
+    self.assertEqual(preview_batch.discover_calls, ['2026-06'])
+    self.assertEqual(preview_batch.finalize_calls, ['2026-06'])

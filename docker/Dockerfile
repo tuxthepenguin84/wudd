@@ -14,7 +14,7 @@ COPY requirements.txt ./
 RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-RUN cp examples/win11.json osinfo.json
+RUN cp examples/win11.toml osinfo.toml
 
 FROM python:3.14-slim
 

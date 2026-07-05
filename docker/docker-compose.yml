@@ -8,6 +8,6 @@ services:
     volumes:
       - ./downloads/:/git/wudd/downloads/
       - ./outputs/:/git/wudd/outputs/
-      - ./osinfo.json:/git/wudd/osinfo.json:ro
+      - ./osinfo.toml:/git/wudd/osinfo.toml:ro
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
